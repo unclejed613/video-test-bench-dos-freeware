@@ -1,0 +1,1907 @@
+                                                                      PAGE   1
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 0030   0006    
+ 0030   0006    REM $INCLUDE: 'qlib58a.bi'
+ 0030   0006    DEFINT A-Z
+ 0030   0006    DECLARE FUNCTION Color16% (red%, green%, blue%)
+ 0030   0006    DECLARE FUNCTION Color256& (red%, green%, blue%)
+ 0030   0006    DECLARE FUNCTION ColorAttr (fore%, back%)
+ 0030   0006    DECLARE FUNCTION GetBorder ()
+ 0030   0006    DECLARE FUNCTION HRam8043 ()
+ 0030   0006    DECLARE FUNCTION HRam9025 ()
+ 0030   0006    DECLARE FUNCTION HRam9043 ()
+ 0030   0006    DECLARE FUNCTION HText ()
+ 0030   0006    DECLARE FUNCTION HGraph ()
+ 0030   0006    DECLARE FUNCTION HGraph0 ()
+ 0030   0006    DECLARE FUNCTION IsATT ()
+ 0030   0006    DECLARE FUNCTION IsDigit (k%)
+ 0030   0006    DECLARE FUNCTION IsEMS ()
+ 0030   0006    DECLARE FUNCTION IsLower (k%)
+ 0030   0006    DECLARE FUNCTION IsMouse ()
+ 0030   0006    DECLARE FUNCTION IsMSHERC ()
+ 0030   0006    DECLARE FUNCTION IsSEVGA ()
+ 0030   0006    DECLARE FUNCTION MakeVScreen (r%, c%)
+ 0030   0006    DECLARE FUNCTION MathChip ()
+ 0030   0006    DECLARE FUNCTION SVGA132 (i%)
+ 0030   0006    DECLARE FUNCTION Mode43 ()
+ 0030   0006    DECLARE FUNCTION ModeMono ()
+ 0030   0006    DECLARE FUNCTION ModeColor ()
+ 0030   0006    DECLARE FUNCTION ScreenMem ()
+ 0030   0006    DECLARE FUNCTION SVGA16 (i%)
+ 0030   0006    DECLARE FUNCTION SVGA256 (i%)
+ 0030   0006    DECLARE FUNCTION TrimRight (a$)
+ 0030   0006    DECLARE FUNCTION VertList (mm%, r0%, c0%, choice%)
+ 0030   0006    DECLARE FUNCTION WindowMem (r0%, c0%, r1%, c1%)
+ 0030   0006    DECLARE FUNCTION WLastEdit ()
+ 0030   0006    DECLARE FUNCTION XMSContig()
+ 0030   0006    DECLARE FUNCTION XMSError()
+ 0030   0006    DECLARE FUNCTION XMSFree()
+ 0030   0006    DECLARE FUNCTION YesNo ()
+ 0030   0006    
+ 0030   0006    REM $INCLUDE: 'qb.bi'
+ 0030   0006    '***
+ 0030   0006    ' QB.BI - Assembly Support Include File
+ 0030   0006    '
+ 0030   0006    '       Copyright <C> 1987 Microsoft Corporation
+ 0030   0006    '
+ 0030   0006    ' Purpose:
+ 0030   0006    '      This include file defines the types and gives the DECLAR
+                E
+ 0030   0006    '       statements for the assembly language routines ABSOLUTE,
+ 0030   0006    '       INTERRUPT, INTERRUPTX, INT86OLD, and INT86XOLD.
+ 0030   0006    '
+ 0030   0006    '**************************************************************
+                *************
+ 0030   0006    '
+ 0030   0006    ' Define the type needed for INTERRUPT
+                                                                      PAGE   2
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 0030   0006    '
+ 0030   0006    TYPE RegType
+ 0030   0006         ax    AS INTEGER
+ 0030   0006         bx    AS INTEGER
+ 0030   0006         cx    AS INTEGER
+ 0030   0006         dx    AS INTEGER
+ 0030   0006         bp    AS INTEGER
+ 0030   0006         si    AS INTEGER
+ 0030   0006         di    AS INTEGER
+ 0030   0006         flags AS INTEGER
+ 0030   0006    END TYPE
+ 0030   0006    '
+ 0030   0006    ' Define the type needed for INTERUPTX
+ 0030   0006    '
+ 0030   0006    TYPE RegTypeX
+ 0030   0006         ax    AS INTEGER
+ 0030   0006         bx    AS INTEGER
+ 0030   0006         cx    AS INTEGER
+ 0030   0006         dx    AS INTEGER
+ 0030   0006         bp    AS INTEGER
+ 0030   0006         si    AS INTEGER
+ 0030   0006         di    AS INTEGER
+ 0030   0006         flags AS INTEGER
+ 0030   0006         ds    AS INTEGER
+ 0030   0006         es    AS INTEGER
+ 0030   0006    END TYPE
+ 0030   0006    '
+ 0030   0006    '                 DECLARE statements for the 5 routines
+ 0030   0006    '                 -------------------------------------
+ 0030   0006    '
+ 0030   0006    ' Generate a software interrupt, loading all but the segment re
+                gisters
+ 0030   0006    '
+ 0030   0006    DECLARE SUB INTERRUPT (intnum AS INTEGER,inreg AS RegType,outre
+                g AS RegType)
+ 0030   0006    '
+ 0030   0006    ' Generate a software interrupt, loading all registers
+ 0030   0006    '
+ 0030   0006    DECLARE SUB INTERRUPTX (intnum AS INTEGER,inreg AS RegTypeX, ou
+                treg AS RegTypeX)
+ 0030   0006    '
+ 0030   0006    ' Call a routine at an absolute address.
+ 0030   0006    ' NOTE: If the routine called takes parameters, then they will 
+                have to
+ 0030   0006    '       be added to this declare statement before the parameter
+                 given.
+ 0030   0006    '
+ 0030   0006    DECLARE SUB ABSOLUTE (address AS INTEGER)
+ 0030   0006    '
+ 0030   0006    ' Generate a software interrupt, loading all but the segment re
+                gisters
+ 0030   0006    '       (old version)
+ 0030   0006    '
+ 0030   0006    DECLARE SUB INT86OLD (intnum AS INTEGER,_
+                                                                      PAGE   3
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 0030   0006                          inarray(1) AS INTEGER,_
+ 0030   0006                          outarray(1) AS INTEGER)
+ 0030   0006    '
+ 0030   0006    ' Gemerate a software interrupt, loading all the registers
+ 0030   0006    '       (old version)
+ 0030   0006    '
+ 0030   0006    DECLARE SUB INT86XOLD (intnum AS INTEGER,_
+ 0030   0006                           inarray(1) AS INTEGER,_
+ 0030   0006                           outarray(1) AS INTEGER)
+ 0030   0006    '
+ 0030   0006    
+ 0030   0006    REM CLEAR , , 6000
+ 0030   0006    
+ 0030   0006    'there were several naming conventions i used while writing the
+                 subroutines
+ 0030   0006    'in this program some began with V, X8, or X10 which denote VGA
+                , 800x600
+ 0030   0006    'or 1024x768. these were routines i wrote later. routines with 
+                XH in the name
+ 0030   0006    'are crosshatch patterns, CB for color bars, FOC for focus, PUR
+                 for purity,
+ 0030   0006    'and several others. routine names ending with CGA, EGA, or wit
+                h MONO or HERC
+ 0030   0006    'in the name are for the various TTL modes. since this program 
+                was written
+ 0030   0006    'over the span of several years, the routine naming conventions
+                 varied a
+ 0030   0006    'bit, so may not seem consistent at times. this program began a
+                s a series
+ 0030   0006    'of separate BASIC programs to test various functions in monito
+                rs. eventually
+ 0030   0006    'i began changing the separate programs into subroutines called
+                 by a menu.
+ 0030   0006    ' the spaghetti code got quite long and confusing, so i began c
+                utting and
+ 0030   0006    'pasting subroutines into a set of external modules and compili
+                ng them
+ 0030   0006    'into a library. i told a service manual supplier what i was do
+                ing after
+ 0030   0006    'they asked me if i wanted to buy a $3000.00 test pattern gener
+                ator.
+ 0030   0006    'it was about this time Trident released their multifunction VG
+                A card
+ 0030   0006    'that also had mono,CGA and EGA outputs, and was configurable b
+                y a DIP
+ 0030   0006    'switch. the service manual supplier asked me if i had consider
+                ed selling
+ 0030   0006    'my software package, and if i could send them a demo. i compil
+                ed all of
+ 0030   0006    'the code into a single executable, and made a demo copy which 
+                only allowed
+ 0030   0006    'a selected test pattern on the screen for about 20 seconds and
+                 sent it to them.
+ 0030   0006    'they began buying copies of VTB and packaging it with Trident 
+                                                                      PAGE   4
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+                cards. then
+ 0030   0006    'another company got wind of it, and wanted to sell the softwar
+                e and card
+ 0030   0006    ' as part of an integrated package along with their parts searc
+                h, service
+ 0030   0006    'database, and service manual lookup software. within a few yea
+                rs we had
+ 0030   0006    'all made some money from the idea, but suddenly the cost of ne
+                w VGA and
+ 0030   0006    'SVGA monitors dropped from an average of $300-500 to $100-150.
+                 this
+ 0030   0006    'happened within the space of two or three months, and the bott
+                om fell out
+ 0030   0006    'of the monitor repair business. i had to find something else t
+                o do other
+ 0030   0006    'than repairing monitors and developing test pattern software. 
+                fast forward
+ 0030   0006    'to 2010 and questions asked in internet forums about how to re
+                pair
+ 0030   0006    'CRT monitors and if there were any way of generating test patt
+                erns.
+ 0030   0006    'i decided to release VTB as freeware. fortunately i still have
+                 all of
+ 0030   0006    'the code and copies of the Qbasic 4.5 i compiled it with.
+ 0030   0006    
+ 0030   0006    'so enough about the history of VTB... let's get coding...
+ 0030   0006    'my notes are sparse, as i didn't keep notes when i wrote VTB b
+                ut relied on
+ 0030   0006    'the subroutine names to keep straight what they did, and i am 
+                only
+ 0030   0006    'now adding the notes.
+ 0030   0006    
+ 0030   0006    'main menu intro screen
+ 0030   0006    SCREEN 0
+ 011C   0006    COLOR 15, 1
+ 0137   0006    CLS
+ 0145   0006    COLOR 15, 7
+ 0163   0006    LOCATE 9, 30
+ 0181   0006    PRINT "ษออออออออออออออออออออป"
+ 018F   0006    LOCATE 10, 30
+ 01AD   0006    PRINT "บ  VIDEO TEST BENCH  บ"
+ 01BB   0006    LOCATE 11, 30
+ 01D9   0006    PRINT "บ        V4.5F       บ"
+ 01E7   0006    LOCATE 12, 30
+ 0205   0006    PRINT "บ    FREEWARE COPY   บ"
+ 0213   0006    LOCATE 13, 30
+ 0231   0006    PRINT "บ                    บ"
+ 023F   0006    LOCATE 14, 30
+ 025D   0006    PRINT "บ                    บ"
+ 026B   0006    LOCATE 15, 30
+ 0289   0006    PRINT "บ      (c) 2011      บ"
+ 0297   0006    LOCATE 16, 30
+ 02B5   0006    PRINT "บ  WARREN C. MARTIN  บ";
+ 02C3   0006    LOCATE 17, 30
+                                                                      PAGE   5
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 02E1   0006    PRINT "ศออออออออออออออออออออผ"
+ 02EF   0006    SLEEP 5
+ 02FF   0006    
+ 02FF   0006    CardTst:
+ 0309   0006    'figure out which video card is installed
+ 0309   0006    ON ERROR GOTO Whoa
+ 0318   0006    DEF SEG = 0
+ 0325   0006    vid1 = PEEK(1123) + 256 * PEEK(1124)
+ 035B   0008    vid2 = PEEK(1159)
+ 0371   000A    DIM reg AS RegType
+ 0376   001A    reg.ax = &H1A00
+ 0381   001A    CALL INTERRUPT(&H10, reg, reg)
+ 039A   001C    vid3 = reg.bx AND &HFF
+ 03A8   001E    'read bios video card ID and branch to whatever
+ 03A8   001E    'menu matches the installed card
+ 03A8   001E    IF vid1 = 948 THEN GOTO MonoMenu
+ 03C0   001E    IF vid1 = 980 AND vid2 = 0 THEN GOTO CgaMenu
+ 03ED   001E    IF vid1 = 980 AND vid2 = 96 AND vid3 = 0 THEN GOTO EgaMenu
+ 0427   001E    IF vid1 = 980 AND vid2 = 96 AND vid3 = 8 THEN GOTO VgaMenu
+ 0461   001E    
+ 0461   001E    MainMenu:
+ 046B   001E    'if card test doesnt match anything default to main menu
+ 046B   001E    SCREEN 0
+ 0480   001E    COLOR 15, 1
+ 049B   001E    c$ = ""
+ 04AD   0022    k$ = ""
+ 04BF   0026    CLS
+ 04CD   0026    PRINT "VIDEO TEST BENCH V 4.5F ---VTB FREEWARE INC. "
+ 04DB   0026    COLOR 15, 7
+ 04F9   0026    LOCATE 10, 32
+ 0517   0026    PRINT "ษออออออออออออออป"
+ 0525   0026    LOCATE 11, 32
+ 0543   0026    PRINT "บ 1> CGA MENU  บ";
+ 0551   0026    LOCATE 12, 32
+ 056F   0026    PRINT "บ 2> EGA MENU  บ";
+ 057D   0026    LOCATE 13, 32
+ 059B   0026    PRINT "บ 3> VGA MENU  บ";
+ 05A9   0026    LOCATE 14, 32
+ 05C7   0026    PRINT "บ 4> MONO MENU บ";
+ 05D5   0026    LOCATE 15, 32
+ 05F3   0026    PRINT "บ 5> HELP      บ";
+ 0601   0026    LOCATE 16, 32
+ 061F   0026    PRINT "บ 0> EXIT      บ";
+ 062D   0026    LOCATE 17, 32
+ 064B   0026    PRINT "ศออออออออออออออผ";
+ 0659   0026    DO WHILE k$ = ""
+ 0670   0026    k$ = INKEY$
+ 0684   0026    LOOP
+ 068C   0026    ON VAL(k$) GOTO CgaMenu, EgaMenu, VgaMenu, MonoMenu, Help
+ 06B6   0026    IF k$ = CHR$(27) OR k$ = "0" THEN GOTO ExitMenu ELSE GOTO MainM
+                enu
+ 070E   0026    GOTO MainMenu
+ 0716   0026    
+ 0716   0026    CgaMenu:
+                                                                      PAGE   6
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 0720   0026    'if a cga card was detected we land here
+ 0720   0026    SCREEN 0
+ 0735   0026    WIDTH 80
+ 0747   0026    COLOR 15, 2
+ 0765   0026    CLS
+ 0773   0026    PRINT "VIDEO TEST BENCH V 4.5F ---CGA MENU"
+ 0781   0026    COLOR 15, 7
+ 079F   0026    k$ = ""
+ 07B1   0026    LOCATE 7, 29
+ 07CF   0026    PRINT "ษอออออออออออออออออออออออป";
+ 07DD   0026    LOCATE 8, 29
+ 07FB   0026    PRINT "บ  1> COLOR BARS        บ";
+ 0809   0026    LOCATE 9, 29
+ 0827   0026    PRINT "บ  2> CENTERING         บ";
+ 0835   0026    LOCATE 10, 29
+ 0853   0026    PRINT "บ  3> HV REGULATION     บ";
+ 0861   0026    LOCATE 11, 29
+ 087F   0026    PRINT "บ  4> CROSSHATCH        บ";
+ 088D   0026    LOCATE 12, 29
+ 08AB   0026    PRINT "บ  5> FOCUS             บ";
+ 08B9   0026    LOCATE 13, 29
+ 08D7   0026    PRINT "บ  6> PURITY            บ";
+ 08E5   0026    LOCATE 14, 29
+ 0903   0026    PRINT "บ  7> MULTIBURST        บ";
+ 0911   0026    LOCATE 15, 29
+ 092F   0026    PRINT "บ  8> LUMINANCE WINDOW  บ";
+ 093D   0026    LOCATE 16, 29
+ 095B   0026    PRINT "บ  9> COLOR BALANCE     บ";
+ 0969   0026    LOCATE 17, 29
+ 0987   0026    PRINT "บ  A> CGA TEST LOOP     บ";
+ 0995   0026    LOCATE 18, 29
+ 09B3   0026    PRINT "บ  B> HELP SCREEN       บ";
+ 09C1   0026    LOCATE 19, 29
+ 09DF   0026    PRINT "บ  0> EXIT              บ";
+ 09ED   0026    LOCATE 20, 29
+ 0A0B   0026    PRINT "ศอออออออออออออออออออออออผ";
+ 0A19   0026    k$ = ""
+ 0A2B   0026    c$ = ""
+ 0A3D   0026    DO WHILE c$ = ""
+ 0A54   0026    c$ = INKEY$
+ 0A68   0026    LOOP
+ 0A70   0026    ON VAL(c$) GOSUB ColorBarCga, CenCga, BalCga, XhCga, FocCga, Pu
+                r, MultCga, LumCga, Cbal1
+ 0AA2   0026    IF c$ = "0" OR c$ = CHR$(27) THEN GOTO MainMenu
+ 0AEA   0026    IF c$ = "A" OR c$ = "a" THEN GOSUB Cloop
+ 0B31   0026    IF c$ = "B" OR c$ = "b" THEN GOTO Help
+ 0B73   0026    c$ = ""
+ 0B85   0026    GOTO CgaMenu
+ 0B8D   0026    
+ 0B8D   0026    
+ 0B8D   0026    EgaMenu:
+ 0B97   0026    'if an ega card was detected we land here
+ 0B97   0026    SCREEN 0
+ 0BAC   0026    WIDTH 80
+                                                                      PAGE   7
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 0BBE   0026    COLOR 15, 5
+ 0BDC   0026    CLS
+ 0BEA   0026    PRINT "VIDEO TEST BENCH V 4.5F --- EGA MENU"
+ 0BF8   0026    COLOR 15, 7
+ 0C16   0026    k$ = ""
+ 0C28   0026    LOCATE 7, 29
+ 0C46   0026    PRINT "ษออออออออออออออออออออป";
+ 0C54   0026    LOCATE 8, 29
+ 0C72   0026    PRINT "บ  1> COLOR BARS     บ";
+ 0C80   0026    LOCATE 9, 29
+ 0C9E   0026    PRINT "บ  2> MODE SWITCH    บ";
+ 0CAC   0026    LOCATE 10, 29
+ 0CCA   0026    PRINT "บ  3> CROSSHATCH     บ";
+ 0CD8   0026    LOCATE 11, 29
+ 0CF6   0026    PRINT "บ  4> FOCUS          บ";
+ 0D04   0026    LOCATE 12, 29
+ 0D22   0026    PRINT "บ  5> MULTIBURST     บ";
+ 0D30   0026    LOCATE 13, 29
+ 0D4E   0026    PRINT "บ  6> RGBI PATTERN   บ";
+ 0D5C   0026    LOCATE 14, 29
+ 0D7A   0026    PRINT "บ  7> PURITY         บ";
+ 0D88   0026    LOCATE 15, 29
+ 0DA6   0026    PRINT "บ  8> EGA TEST LOOP  บ";
+ 0DB4   0026    LOCATE 16, 29
+ 0DD2   0026    PRINT "บ  9> HELP SCREEN    บ"
+ 0DE0   0026    LOCATE 17, 29
+ 0DFE   0026    PRINT "ศออออออออออออออออออออผ";
+ 0E0C   0026    c$ = ""
+ 0E1E   0026    k$ = ""
+ 0E30   0026    DO WHILE c$ = ""
+ 0E48   0026    c$ = INKEY$
+ 0E5C   0026    LOOP
+ 0E64   0026    ON VAL(c$) GOSUB EColrBar, Emode, Exh, Efoc, Emult, Ergbi, Pur2
+                , Eloop, Help
+ 0E96   0026    IF c$ = "0" OR c$ = CHR$(27) THEN GOTO MainMenu
+ 0EDE   0026    c$ = ""
+ 0EF0   0026    GOTO EgaMenu
+ 0EF8   0026    
+ 0EF8   0026    VgaMenu:
+ 0F02   0026    'if a vga card was detected we land here
+ 0F02   0026    SCREEN 0
+ 0F17   0026    WIDTH 80
+ 0F29   0026    COLOR 1, 15
+ 0F41   0026    CLS
+ 0F4F   0026    PRINT "VIDEO TEST BENCH V 4.5F --- VGA MENU"
+ 0F5D   0026    c$ = ""
+ 0F6F   0026    COLOR 15, 7
+ 0F8D   0026    k$ = ""
+ 0F9F   0026    LOCATE 9, 27
+ 0FBD   0026    PRINT "ษออออออออออออออออออออออออป";
+ 0FCB   0026    LOCATE 10, 27
+ 0FE9   0026    PRINT "บ  1> COLOR BAR MENU     บ";
+ 0FF7   0026    LOCATE 11, 27
+ 1015   0026    PRINT "บ  2> CROSSHATCH MENU    บ";
+                                                                      PAGE   8
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 1023   0026    LOCATE 12, 27
+ 1041   0026    PRINT "บ  3> MISC ADJ MENU      บ";
+ 104F   0026    LOCATE 13, 27
+ 106D   0026    PRINT "บ  4> VGA UTILITIES MENU บ";
+ 107B   0026    LOCATE 14, 27
+ 1099   0026    PRINT "บ  5> SVGA MENU          บ";
+ 10A7   0026    LOCATE 15, 27
+ 10C5   0026    PRINT "บ  6> HELP SCREEN        บ";
+ 10D3   0026    LOCATE 16, 27
+ 10F1   0026    PRINT "บ  0> EXIT               บ";
+ 10FF   0026    LOCATE 17, 27
+ 111D   0026    PRINT "ศออออออออออออออออออออออออผ";
+ 112B   0026    DO WHILE c$ = ""
+ 1142   0026    c$ = INKEY$
+ 1156   0026    LOOP
+ 115E   0026    ON VAL(c$) GOTO VbarM, VxhM, VmiscM, VutilM, SvgaM, Help
+ 118A   0026    IF c$ = "0" OR c$ = CHR$(27) THEN GOTO MainMenu
+ 11D2   0026    c$ = ""
+ 11E4   0026    GOTO VgaMenu
+ 11EC   0026    
+ 11EC   0026    
+ 11EC   0026    MonoMenu:
+ 11F6   0026    'if a mono or herc card was detected we land here
+ 11F6   0026    SCREEN 0
+ 120B   0026    CLS
+ 1219   0026    PRINT "VIDEO TEST BENCH V 4.5F --- MONO MENU"
+ 1227   0026    PRINT "PLEASE BE SURE YOU HAVE LOADED QBHERC.COM BEFORE USING T
+                HESE PATTERNS"
+ 1235   0026    LOCATE 8, 27
+ 1253   0026    PRINT "ษอออออออออออออออออออออออป";
+ 1261   0026    LOCATE 9, 27
+ 127F   0026    PRINT "บ  1> FOCUS             บ";
+ 128D   0026    LOCATE 10, 27
+ 12AB   0026    PRINT "บ  2> CROSSHATCH        บ";
+ 12B9   0026    LOCATE 11, 27
+ 12D7   0026    PRINT "บ  3> MULTIBURST        บ";
+ 12E5   0026    LOCATE 12, 27
+ 1303   0026    PRINT "บ  4> BRIGHT SCREEN     บ";
+ 1311   0026    LOCATE 13, 27
+ 132F   0026    PRINT "บ  5> SPLIT SCREEN      บ";
+ 133D   0026    LOCATE 14, 27
+ 135B   0026    PRINT "บ  6> TEXT              บ";
+ 1369   0026    LOCATE 15, 27
+ 1387   0026    PRINT "บ  7> MONO TEST LOOP    บ";
+ 1395   0026    LOCATE 16, 27
+ 13B3   0026    PRINT "บ  0> EXIT              บ";
+ 13C1   0026    LOCATE 17, 27
+ 13DF   0026    PRINT "ศอออออออออออออออออออออออผ";
+ 13ED   0026    k$ = ""
+ 13FF   0026    k$ = ""
+ 1411   0026    c$ = ""
+ 1423   0026    c$ = ""
+ 1435   0026    DO WHILE c$ = ""
+ 144C   0026    c$ = INKEY$
+                                                                      PAGE   9
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 1460   0026    LOOP
+ 1468   0026    ON VAL(c$) GOSUB Hefoc, Hexh, Hemult, Hescr, ColorBarCga, Montx
+                t, Mloop
+ 1496   0026    IF c$ = "0" OR c$ = CHR$(27) THEN GOTO MainMenu
+ 14DE   0026    GOTO MonoMenu
+ 14E6   0026    
+ 14E6   0026    VbarM:
+ 14F0   0026    'most of the vga subs begin with V
+ 14F0   0026    
+ 14F0   0026    c$ = ""
+ 1502   0026    SCREEN 0
+ 1517   0026    WIDTH 80
+ 1529   0026    COLOR 1, 15
+ 1541   0026    CLS
+ 154F   0026    PRINT "VIDEO TEST BENCH V 4.5F --- VGA COLORBAR MENU"
+ 155D   0026    COLOR 15, 1
+ 1578   0026    LOCATE 8, 27
+ 1596   0026    PRINT "ษอออออออออออออออออออออออออออป";
+ 15A4   0026    LOCATE 9, 27
+ 15C2   0026    PRINT "บ  1> 15 COLOR              บ";
+ 15D0   0026    LOCATE 10, 27
+ 15EE   0026    PRINT "บ  2> 256 COLOR             บ";
+ 15FC   0026    LOCATE 11, 27
+ 161A   0026    PRINT "บ  3> IRGB SCALE            บ";
+ 1628   0026    LOCATE 12, 27
+ 1646   0026    PRINT "บ  4> SATURATED COLORS      บ";
+ 1654   0026    LOCATE 13, 27
+ 1672   0026    PRINT "บ  5> 480 LINE BARS         บ";
+ 1680   0026    LOCATE 14, 27
+ 169E   0026    PRINT "บ  6> NTSC BARS             บ";
+ 16AC   0026    LOCATE 15, 27
+ 16CA   0026    PRINT "บ  7> COMBINED BARS         บ";
+ 16D8   0026    LOCATE 16, 27
+ 16F6   0026    PRINT "บ  8> 16 STEP GREY SCALE    บ";
+ 1704   0026    LOCATE 17, 27
+ 1722   0026    PRINT "บ  9> 64 STEP GREY SCALE    บ";
+ 1730   0026    LOCATE 18, 27
+ 174E   0026    PRINT "บ  A> RGB STRIPES           บ";
+ 175C   0026    LOCATE 19, 27
+ 177A   0026    PRINT "บ  B> GREY SCALE REFERENCE  บ";
+ 1788   0026    LOCATE 20, 27
+ 17A6   0026    PRINT "บ  0> EXIT TO VGA MENU      บ";
+ 17B4   0026    LOCATE 21, 27
+ 17D2   0026    PRINT "ศอออออออออออออออออออออออออออผ";
+ 17E0   0026    DO WHILE c$ = ""
+ 17F8   0026    c$ = INKEY$
+ 180C   0026    LOOP
+ 1814   0026    ON VAL(c$) GOSUB Fcol, FFcol, Vrgbi, Vsat, V480, Vntsc, Vcomb, 
+                Vgrey, V64
+ 1846   0026    IF c$ = "a" OR c$ = "A" THEN GOSUB Rgbs
+ 188D   0026    IF c$ = "b" OR c$ = "B" THEN GOSUB Grybox
+ 18D4   0026    IF c$ = "0" OR c$ = CHR$(27) THEN GOTO VgaMenu
+ 191C   0026    c$ = ""
+ 192E   0026    GOTO VbarM
+                                                                      PAGE  10
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 1936   0026    
+ 1936   0026    VxhM:
+ 1940   0026    SCREEN 0
+ 1955   0026    WIDTH 80
+ 1967   0026    COLOR 1, 15
+ 197F   0026    CLS
+ 198D   0026    PRINT "VIDEO TEST BENCH V 4.5F --- VGA CROSSHATCH MENU"
+ 199B   0026    COLOR 15, 2
+ 19B9   0026    c$ = ""
+ 19CB   0026    LOCATE 8, 27
+ 19E9   0026    PRINT "ษอออออออออออออออออออออออออออป";
+ 19F7   0026    LOCATE 9, 27
+ 1A15   0026    PRINT "บ  1> 350 LINE              บ"
+ 1A23   0026    LOCATE 10, 27
+ 1A41   0026    PRINT "บ  2> 400 LINE              บ";
+ 1A4F   0026    LOCATE 11, 27
+ 1A6D   0026    PRINT "บ  3> 480 LINE              บ";
+ 1A7B   0026    LOCATE 12, 27
+ 1A99   0026    PRINT "บ  4> CENTERING             บ";
+ 1AA7   0026    LOCATE 13, 27
+ 1AC5   0026    PRINT "บ  5> 400 LINE SPECIAL      บ";
+ 1AD3   0026    LOCATE 14, 27
+ 1AF1   0026    PRINT "บ  6> COLOR GRID            บ";
+ 1AFF   0026    LOCATE 15, 27
+ 1B1D   0026    PRINT "บ  0> EXIT                  บ";
+ 1B2B   0026    LOCATE 16, 27
+ 1B49   0026    PRINT "ศอออออออออออออออออออออออออออผ";
+ 1B57   0026    DO WHILE c$ = ""
+ 1B6E   0026    c$ = INKEY$
+ 1B82   0026    LOOP
+ 1B8A   0026    ON VAL(c$) GOSUB X350V, X400V, X480V, Vctr, S400, Cgrid
+ 1BB6   0026    IF c$ = "0" OR c$ = CHR$(27) THEN GOTO VgaMenu
+ 1BFE   0026    c$ = ""
+ 1C10   0026    GOTO VxhM
+ 1C18   0026    
+ 1C18   0026    
+ 1C18   0026    VmiscM:
+ 1C22   0026    c$ = ""
+ 1C34   0026    SCREEN 0
+ 1C49   0026    WIDTH 80
+ 1C5B   0026    COLOR 1, 15
+ 1C73   0026    CLS
+ 1C81   0026    PRINT "VIDEO TEST BENCH V 4.5F --- VGA MISCELLANEOUS MENU"
+ 1C8F   0026    COLOR 15, 3
+ 1CAD   0026    LOCATE 5, 25
+ 1CCB   0026    PRINT "ษอออออออออออออออออออออออออออป";
+ 1CD9   0026    LOCATE 6, 25
+ 1CF7   0026    PRINT "บ  1> MULTIBURST            บ";
+ 1D05   0026    LOCATE 7, 25
+ 1D23   0026    PRINT "บ  2> PURITY                บ";
+ 1D31   0026    LOCATE 8, 25
+ 1D4F   0026    PRINT "บ  3> HVREG                 บ";
+ 1D5D   0026    LOCATE 9, 25
+ 1D7B   0026    PRINT "บ  4> COLOR BALANCE         บ";
+                                                                      PAGE  11
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 1D89   0026    LOCATE 10, 25
+ 1DA7   0026    PRINT "บ  5> TEXT                  บ";
+ 1DB5   0026    LOCATE 11, 25
+ 1DD3   0026    PRINT "บ  6> COLOR CONTRAST        บ";
+ 1DE1   0026    LOCATE 12, 25
+ 1DFF   0026    PRINT "บ  7> VGA FOCUS             บ";
+ 1E0D   0026    LOCATE 21, 25
+ 1E2B   0026    PRINT "บ  0> EXIT                  บ";
+ 1E39   0026    LOCATE 13, 25
+ 1E57   0026    PRINT "บ  8> ANALOG ECHO           บ";
+ 1E65   0026    LOCATE 14, 25
+ 1E83   0026    PRINT "บ  9> VID AMP OVERLOAD      บ";
+ 1E91   0026    LOCATE 15, 25
+ 1EAF   0026    PRINT "บ  A> VGA FOCUS #2          บ";
+ 1EBD   0026    LOCATE 16, 25
+ 1EDB   0026    PRINT "บ  B> VGA FOCUS #3          บ";
+ 1EE9   0026    LOCATE 17, 25
+ 1F07   0026    PRINT "บ  C> DYNAMIC HV REG        บ";
+ 1F15   0026    LOCATE 18, 25
+ 1F33   0026    PRINT "บ  D> STANDARD LUM WINDOWS  บ";
+ 1F41   0026    LOCATE 19, 25
+ 1F5F   0026    PRINT "บ  E> CENTERING CROSSHAIRS  บ";
+ 1F6D   0026    LOCATE 20, 25
+ 1F8B   0026    PRINT "บ  F> PHOSPHOR IONIZATION   บ";
+ 1F99   0026    LOCATE 22, 25
+ 1FB7   0026    PRINT "ศอออออออออออออออออออออออออออผ";
+ 1FC5   0026    DO WHILE c$ = ""
+ 1FDC   0026    c$ = INKEY$
+ 1FF0   0026    LOOP
+ 1FF8   0026    ON VAL(c$) GOSUB Vmult, Pur2, BalCga, Vbal, Vtxt, Vcc, Vfoc, Ec
+                ho, Smear
+ 202A   0026    IF c$ = "A" OR c$ = "a" THEN GOSUB Foc2
+ 2071   0026    IF c$ = "B" OR c$ = "b" THEN GOSUB Foc3
+ 20B8   0026    
+ 20B8   0026    IF c$ = "C" OR c$ = "c" THEN GOSUB Dynhv
+ 20FF   0026    IF c$ = "D" OR c$ = "d" THEN GOSUB Lumwin
+ 2146   0026    IF c$ = "E" OR c$ = "e" THEN GOSUB Vctr2
+ 218D   0026    IF c$ = "F" OR c$ = "f" THEN GOSUB Phos1
+ 21D4   0026    IF c$ = "0" OR c$ = CHR$(27) THEN GOTO VgaMenu
+ 221C   0026    c$ = ""
+ 222E   0026    GOTO VmiscM
+ 2236   0026    
+ 2236   0026    
+ 2236   0026    VutilM:
+ 2240   0026    k$ = ""
+ 2252   0026    c$ = ""
+ 2264   0026    SCREEN 0
+ 2279   0026    WIDTH 80
+ 228B   0026    COLOR 1, 15
+ 22A3   0026    CLS
+ 22B1   0026    PRINT "VIDEO TEST BENCH V 4.5F --- VGA UTILITIES MENU"
+ 22BF   0026    COLOR 15, 4
+ 22DA   0026    LOCATE 9, 28
+ 22F8   0026    PRINT "ษออออออออออออออออออออออป";
+                                                                      PAGE  12
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 2306   0026    LOCATE 10, 28
+ 2324   0026    PRINT "บ  1> VGA TEST LOOP    บ";
+ 2332   0026    LOCATE 11, 28
+ 2350   0026    PRINT "บ  2> MODE SWITCHING   บ";
+ 235E   0026    LOCATE 12, 28
+ 237C   0026    PRINT "บ  0> EXIT             บ";
+ 238A   0026    LOCATE 13, 28
+ 23A8   0026    PRINT "ศออออออออออออออออออออออผ";
+ 23B6   0026    DO WHILE c$ = ""
+ 23CE   0026    c$ = INKEY$
+ 23E2   0026    LOOP
+ 23EA   0026    ON VAL(c$) GOSUB Vloop, Vmode
+ 240E   0026    IF c$ = "0" OR c$ = CHR$(27) THEN GOTO VgaMenu
+ 2456   0026    c$ = ""
+ 2468   0026    GOTO VutilM
+ 2470   0026    
+ 2470   0026    SvgaM:
+ 247A   0026    SCREEN 0
+ 248F   0026    COLOR 15, 1
+ 24AA   0026    CLS
+ 24B8   0026    PRINT "VTB FREEWARE - SVGA MENU"
+ 24C6   0026    CALL XModeClear
+ 24D0   0026    COLOR 9, 15
+ 24EE   0026    c$ = ""
+ 2500   0026    LOCATE 6, 25
+ 251E   0026    PRINT "ษอออออออออออออออออออออออออออออป";
+ 252C   0026    LOCATE 7, 25
+ 254A   0026    PRINT "บ 1> 800x600 crosshatch       บ";
+ 2558   0026    LOCATE 8, 25
+ 2576   0026    PRINT "บ 2> 800x600 multiburst       บ";
+ 2584   0026    LOCATE 9, 25
+ 25A2   0026    PRINT "บ 3> 800x600 focus            บ";
+ 25B0   0026    LOCATE 10, 25
+ 25CE   0026    PRINT "บ 4> 800x600 focus #2         บ";
+ 25DC   0026    LOCATE 12, 25
+ 25FA   0026    PRINT "บ 6> mode 13a color palette   บ"
+ 2608   0026    LOCATE 11, 25
+ 2626   0026    PRINT "บ 5> 800x600 text             บ";
+ 2634   0026    COLOR 9, 8
+ 2652   0026    LOCATE 13, 25
+ 2670   0026    PRINT "บ 7> 1024x768 crosshatch      บ";
+ 267E   0026    LOCATE 14, 25
+ 269C   0026    PRINT "บ 8> 1024x768 multiburst      บ";
+ 26AA   0026    LOCATE 15, 25
+ 26C8   0026    PRINT "บ 9> 1024x768 focus #1        บ";
+ 26D6   0026    LOCATE 16, 25
+ 26F4   0026    PRINT "บ A> 1024x768 focus #2        บ";
+ 2702   0026    LOCATE 17, 25
+ 2720   0026    PRINT "บ B> 1024x768 text            บ";
+ 272E   0026    LOCATE 18, 25
+ 274C   0026    PRINT "บ 0> exit                     บ";
+ 275A   0026    LOCATE 19, 25
+ 2778   0026    PRINT "ศอออออออออออออออออออออออออออออผ";
+ 2786   0026    DO WHILE c$ = ""
+                                                                      PAGE  13
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 279E   0026    c$ = INKEY$
+ 27B2   0026    LOOP
+ 27BA   0026    'most of the svga subs are identified with X8 for 800x600
+ 27BA   0026    'and X10 for 1024x768
+ 27BA   0026    
+ 27BA   0026    IF c$ = "1" THEN GOTO X8xh
+ 27D9   0026    IF c$ = "2" THEN GOTO X8mult
+ 27F8   0026    IF c$ = "3" THEN GOTO X8foc
+ 2817   0026    IF c$ = "4" THEN GOTO X8foc2
+ 2836   0026    IF c$ = "5" THEN GOTO X8txt
+ 2855   0026    IF c$ = "6" THEN GOTO X813p
+ 2874   0026    IF c$ = "7" THEN GOTO X10xh
+ 2893   0026    IF c$ = "8" THEN GOTO X10mult
+ 28B2   0026    IF c$ = "9" THEN GOTO X10foc1
+ 28D1   0026    IF c$ = "a" OR c$ = "A" THEN GOTO X10foc2
+ 2913   0026    IF c$ = "b" OR c$ = "B" THEN GOTO X10txt
+ 2955   0026    
+ 2955   0026    IF c$ = CHR$(27) OR c$ = "0" THEN GOTO VgaMenu
+ 299D   0026    c$ = ""
+ 29AF   0026    GOTO SvgaM
+ 29B7   0026    
+ 29B7   0026    ExitMenu:
+ 29C1   0026    c$ = ""
+ 29D3   0026    k$ = ""
+ 29E5   0026    SCREEN 0
+ 29FA   0026    COLOR 15, 4
+ 2A15   0026    CLS
+ 2A23   0026    PRINT "DO YOU WANT TO EXIT? Y/N"
+ 2A31   0026    DO WHILE c$ = ""
+ 2A48   0026    c$ = INKEY$
+ 2A5C   0026    LOOP
+ 2A64   0026    IF c$ = "Y" OR c$ = "y" THEN GOTO Gone ELSE GOTO MainMenu
+ 2AB6   0026    
+ 2AB6   0026    Help:
+ 2AC0   0026    
+ 2AC0   0026    'tell the user what keys do what in certain test patterns
+ 2AC0   0026    
+ 2AC0   0026    SCREEN 0
+ 2AD5   0026    WIDTH 80
+ 2AE7   0026    COLOR 15, 1
+ 2B02   0026    CLS
+ 2B10   0026    PRINT "HELP FILE"
+ 2B1E   0026    PRINT "COMMAND KEYS FOR CROSSHATCH PATTERNS"
+ 2B2C   0026    PRINT "   (R) FOR RED LINES     (G) FOR GREEN LINES"
+ 2B3A   0026    PRINT "   (B) FOR BLUE LINES    (M) FOR MAGENTA LINES"
+ 2B48   0026    PRINT "   (C) FOR CYAN LINES    (Y) FOR YELLOW LINES"
+ 2B56   0026    PRINT "   (W) FOR WHITE LINES   (Z) FOR REVERSE VIDEO (W FOR NO
+                RMAL VIDEO)"
+ 2B64   0026    PRINT "   (ESC) TO EXIT"
+ 2B72   0026    PRINT " USE R,G,B, AND W FOR PURITY TEST COLORS"
+ 2B80   0026    PRINT
+ 2B8E   0026    PRINT "VGA COLOR BALANCE WINDOW COMMANDS:"
+ 2B9C   0026    PRINT "   COLORS ARE CONTINUOUSLY VARIABLE WITH INDICATORS SHOW
+                N IN "
+                                                                      PAGE  14
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 2BAA   0026    PRINT "   UPPER LEFT CORNER OF THE SCREEN."
+ 2BB8   0026    PRINT "  (E) DECREASES RED       (R) INCREASES RED      (ESC) T
+                O EXIT"
+ 2BC6   0026    PRINT "  (F) DECREASED GREEN     (G) INCREASES GREEN"
+ 2BD4   0026    PRINT "  (V) DECREASES BLUE      (B) INCREASES BLUE"
+ 2BE2   0026    PRINT
+ 2BF0   0026    PRINT "VGA UTILITIES- THESE TWO PROGRAMS ARE LOOPS, PRESS ANY K
+                EY AND WAIT"
+ 2BFE   0026    PRINT "FOR END OF LOOP TO EXIT."
+ 2C0C   0026    PRINT "**SVGA MODES** SEE DOCUMENTATION UPDATE FOR COMPATIBLE C
+                HIPSET LIST"
+ 2C1A   0026    PRINT " SVGA TEST PATTERNS WILL WORK WITH MOST VIDEO CARDS WITH
+                 1MEG OF MEMORY"
+ 2C28   0026    PRINT " INCLUDING VESA STANDARD CARDS, HOWEVER A CARD PROGRAMME
+                D BY JUMPER OR"
+ 2C36   0026    PRINT " DIP SWITCHES IS PREFERRED BECAUSE THERE ARE SO MANY DIF
+                FERENT SVGA SYNC"
+ 2C44   0026    PRINT " STANDARDS IN USE (FOR 800x600 AND 1024x768 THERE ARE AT
+                 LEAST 3 OF EACH)"
+ 2C52   0026    DO WHILE INKEY$ = ""
+ 2C6C   0026    LOOP
+ 2C74   0026    k$ = ""
+ 2C86   0026    c$ = ""
+ 2C98   0026    GOTO MainMenu
+ 2CA0   0026    
+ 2CA0   0026    ColorBarCga:
+ 2CAA   0026    'most of the cga routines end with cga in the name
+ 2CAA   0026    CALL Cbcga
+ 2CB4   0026    RETURN
+ 2CBE   0026    
+ 2CBE   0026    CenCga:
+ 2CC8   0026    CALL Centcga
+ 2CD2   0026    RETURN
+ 2CDC   0026    
+ 2CDC   0026    BalCga:
+ 2CE6   0026    CALL Balacga
+ 2CF0   0026    RETURN
+ 2CFA   0026    
+ 2CFA   0026    XhCga:
+ 2D04   0026    'xh.bas wcm feb 93
+ 2D04   0026    CALL Xh1cga
+ 2D0E   0026    RETURN
+ 2D18   0026    
+ 2D18   0026    FocCga:
+ 2D22   0026    CALL Focuscga
+ 2D2C   0026    RETURN
+ 2D36   0026    
+ 2D36   0026    Pur:
+ 2D40   0026    CALL Purcga
+ 2D4A   0026    RETURN
+ 2D54   0026    
+ 2D54   0026    MultCga:
+ 2D5E   0026    CALL Multicga
+ 2D68   0026    RETURN
+                                                                      PAGE  15
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 2D72   0026    
+ 2D72   0026    LumCga:
+ 2D7C   0026    CALL Lumicga
+ 2D86   0026    RETURN
+ 2D90   0026    
+ 2D90   0026    
+ 2D90   0026    EColrBar:
+ 2D9A   0026    
+ 2D9A   0026    CALL Cbega
+ 2DA4   0026    RETURN
+ 2DAE   0026    
+ 2DAE   0026    Emode:
+ 2DB8   0026    
+ 2DB8   0026    CALL Modeega
+ 2DC2   0026    RETURN
+ 2DCC   0026    
+ 2DCC   0026    Exh:
+ 2DD6   0026    'xh designates crosshatch patterns
+ 2DD6   0026    'most of the ega routines begin with E or end with ega
+ 2DD6   0026    CALL Xh1ega
+ 2DE0   0026    RETURN
+ 2DEA   0026    
+ 2DEA   0026    Efoc:
+ 2DF4   0026    CALL Focusega
+ 2DFE   0026    RETURN
+ 2E08   0026    
+ 2E08   0026    Emult:
+ 2E12   0026    CALL Multiega
+ 2E1C   0026    RETURN
+ 2E26   0026    
+ 2E26   0026    Ergbi:
+ 2E30   0026    'red green blue and white fade scales
+ 2E30   0026    SCREEN 9
+ 2E46   0026    FOR x = 0 TO 639 STEP 40
+ 2E50   0026    Z = INT(x / 40)
+ 2E71   002A    PALETTE Z, 0
+ 2E84   002A    LINE (x, 0)-(x + 40, 174), Z, BF
+ 2EB6   002A    LINE (639 - x, 175)-((329 - x) + 40, 349), Z, BF
+ 2EF1   002A    NEXT x
+ 2F07   002A    FOR x = 0 TO 15
+ 2F12   002A    READ y
+ 2F23   002C    PALETTE x, y
+ 2F37   002C    NEXT x
+ 2F48   002C    DATA 0,56,7,63,0,8,1,9,0,16,2,18,0,32,4,36
+ 2F4E   002C    DO WHILE INKEY$ = ""
+ 2F68   002C    LOOP
+ 2F70   002C    RESTORE
+ 2F7A   002C    SCREEN 0
+ 2F8F   002C    CLS
+ 2F9D   002C    
+ 2F9D   002C    RETURN
+ 2FA7   002C    
+ 2FA7   002C    Fcol:
+ 2FB1   002C    CALL Vfcolr
+                                                                      PAGE  16
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 2FBB   002C    RETURN
+ 2FC5   002C    
+ 2FC5   002C    FFcol:
+ 2FCF   002C    CALL Vffcolr
+ 2FD9   002C    RETURN
+ 2FE3   002C    
+ 2FE3   002C    Vrgbi:
+ 2FED   002C    
+ 2FED   002C    
+ 2FED   002C    CALL Vgargbi
+ 2FF7   002C    RETURN
+ 3001   002C    
+ 3001   002C    Vsat:
+ 300B   002C    CALL Vgasat
+ 3015   002C    RETURN
+ 301F   002C    
+ 301F   002C    V480:
+ 3029   002C    CALL Cb480
+ 3033   002C    RETURN
+ 303D   002C    
+ 303D   002C    Vntsc:
+ 3047   002C    CALL Vgantsc
+ 3051   002C    RETURN
+ 305B   002C    
+ 305B   002C    Vcomb:
+ 3065   002C    CALL Vgacombo
+ 306F   002C    RETURN
+ 3079   002C    
+ 3079   002C    Vgrey:
+ 3083   002C    CALL Vgrey16
+ 308D   002C    RETURN
+ 3097   002C    
+ 3097   002C    V64:
+ 30A1   002C    CALL Vgrey64
+ 30AB   002C    RETURN
+ 30B5   002C    X350V:
+ 30BF   002C    GOSUB Exh
+ 30CC   002C    RETURN
+ 30D6   002C    
+ 30D6   002C    X400V:
+ 30E0   002C    'crosshatch 400 line vga
+ 30E0   002C    CALL Vga13x(2)
+ 30F4   002E    CALL ClearView
+ 30FE   002E    CALL GraphColor(15)
+ 3112   0030    FOR x% = 0 TO 800
+ 311C   0030    xa% = INT(25 * (SIN(x%)))
+ 3144   0032    ya% = INT(45 * (COS(x%)))
+ 316C   0034    xb% = INT(50 * (SIN(x%)))
+ 3194   0036    yb% = INT(90 * (COS(x%)))
+ 31BC   0038    xc% = INT(100 * (SIN(x%)))
+ 31E4   003A    yc% = INT(180 * (COS(x%)))
+ 320C   003C    CALL PutDot(xa% + 160, ya% + 200, 1)
+ 323A   0042    CALL PutDot(xb% + 160, yb% + 200, 1)
+ 3268   0048    CALL PutDot(xc% + 160, yc% + 200, 1)
+                                                                      PAGE  17
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 3296   004E    NEXT x%
+ 32AA   004E    FOR x% = 0 TO 319 STEP 20
+ 32B4   004E    CALL DrawLine(x%, 0, x%, 399, 1)
+ 32E4   0054    NEXT x%
+ 32F7   0054    FOR x% = 0 TO 360 STEP 40
+ 3302   0054    CALL DrawLine(0, x%, 319, x%, 1)
+ 3332   005A    NEXT x%
+ 3345   005A    CALL DrawBox(0, 0, 319, 399, 1)
+ 3381   0064    r& = Color256(63, 0, 0)
+ 33BE   0072    g& = Color256(0, 63, 0)
+ 33FB   0080    b& = Color256(0, 0, 63)
+ 3438   008E    m& = Color256(63, 0, 63)
+ 3475   009C    c& = Color256(0, 63, 63)
+ 34B2   00AA    y& = Color256(63, 63, 0)
+ 34EF   00B8    w& = Color256(63, 63, 63)
+ 352C   00C6    k& = Color256(0, 0, 0)
+ 3569   00D4    colx:
+ 3573   00D4    c$ = ""
+ 3585   00D4    DO WHILE c$ = ""
+ 359C   00D4    c$ = INKEY$
+ 35B0   00D4    LOOP
+ 35B8   00D4    IF c$ = "r" OR c$ = "R" THEN GOTO r400
+ 35FA   00D4    IF c$ = "g" OR c$ = "G" THEN GOTO g400
+ 363C   00D4    IF c$ = "b" OR c$ = "B" THEN GOTO b400
+ 367E   00D4    IF c$ = "m" OR c$ = "M" THEN GOTO m400
+ 36C0   00D4    IF c$ = "c" OR c$ = "C" THEN GOTO c400
+ 3702   00D4    IF c$ = "y" OR c$ = "Y" THEN GOTO y400
+ 3744   00D4    IF c$ = "z" OR c$ = "Z" THEN GOTO z400
+ 3786   00D4    IF c$ = "w" OR c$ = "W" THEN GOTO w400
+ 37C8   00D4    IF c$ = CHR$(27) THEN GOTO bye400
+ 37ED   00D4    GOTO colx
+ 37F5   00D4    bye400:
+ 37FF   00D4    a = ModeColor
+ 3812   00D8    CALL XModeClear
+ 381C   00D8    GOTO VxhM
+ 3824   00D8    r400:
+ 382E   00D8    CALL Palette256(15, r&)
+ 3846   00DA    GOTO colx
+ 384E   00DA    g400:
+ 3858   00DA    CALL Palette256(15, g&)
+ 3870   00DC    GOTO colx
+ 3878   00DC    b400:
+ 3882   00DC    CALL Palette256(15, b&)
+ 389A   00DE    GOTO colx
+ 38A2   00DE    m400:
+ 38AC   00DE    CALL Palette256(15, m&)
+ 38C4   00E0    GOTO colx
+ 38CC   00E0    c400:
+ 38D6   00E0    CALL Palette256(15, c&)
+ 38EE   00E2    GOTO colx
+ 38F6   00E2    y400:
+ 3900   00E2    CALL Palette256(15, y&)
+ 3918   00E4    GOTO colx
+ 3920   00E4    w400:
+                                                                      PAGE  18
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 392A   00E4    CALL Palette256(15, w&)
+ 3942   00E6    CALL Palette256(0, k&)
+ 395A   00E8    GOTO colx
+ 3962   00E8    z400:
+ 396C   00E8    CALL Palette256(15, k&)
+ 3984   00EA    CALL Palette256(0, w&)
+ 399C   00EC    GOTO colx
+ 39A4   00EC    
+ 39A4   00EC    X480V:
+ 39AE   00EC    
+ 39AE   00EC    CALL Vxh1
+ 39B8   00EC    RETURN
+ 39C2   00EC    
+ 39C2   00EC    Vctr:
+ 39CC   00EC    CALL Vgactr
+ 39D6   00EC    RETURN
+ 39E0   00EC    
+ 39E0   00EC    S400:
+ 39EA   00EC    GOTO S400A
+ 39F2   00EC    S400B:
+ 39FC   00EC    RETURN
+ 3A06   00EC    
+ 3A06   00EC    Cgrid:
+ 3A10   00EC    CALL Vgacnv
+ 3A1A   00EC    RETURN
+ 3A24   00EC    
+ 3A24   00EC    Vmult:
+ 3A2E   00EC    CALL Vgamulti
+ 3A38   00EC    
+ 3A38   00EC    RETURN
+ 3A42   00EC    
+ 3A42   00EC    Vpur:
+ 3A4C   00EC    GOTO Pur
+ 3A54   00EC    
+ 3A54   00EC    Vbal:
+ 3A5E   00EC    CALL Vgacbal
+ 3A68   00EC    
+ 3A68   00EC    
+ 3A68   00EC    RETURN
+ 3A72   00EC    
+ 3A72   00EC    Vtxt:
+ 3A7C   00EC    CALL Vgatext
+ 3A86   00EC    
+ 3A86   00EC    RETURN
+ 3A90   00EC    
+ 3A90   00EC    Vcc:
+ 3A9A   00EC    CALL Vgacc
+ 3AA4   00EC    RETURN
+ 3AAE   00EC    
+ 3AAE   00EC    Vfoc:
+ 3AB8   00EC    CALL Vgafoc
+ 3AC2   00EC    RETURN
+ 3ACC   00EC    
+ 3ACC   00EC    Vloop:
+                                                                      PAGE  19
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 3AD6   00EC    CALL Vgaloop1
+ 3AE0   00EC    RETURN
+ 3AEA   00EC    
+ 3AEA   00EC    Vmode:
+ 3AF4   00EC    CALL Vgamode1
+ 3AFE   00EC    RETURN
+ 3B08   00EC    Gone:
+ 3B12   00EC    'exit screen with release info and a basic freeware statement
+ 3B12   00EC    SCREEN 0
+ 3B27   00EC    CLS
+ 3B35   00EC    PRINT "VIDEO TEST BENCH V 4.5F (C) 2011 BY WARREN C. MARTIN"
+ 3B43   00EC    PRINT "                                                "
+ 3B51   00EC    PRINT "RELEASED AS FREEWARE 01FEB10 BUGFIX 04JUL11"
+ 3B5F   00EC    PRINT "DISTRIBUTION UNLIMITED"
+ 3B6D   00EC    PRINT "PERMISSION GRANTED FOR PRIVATE AND COMMERCIAL USE"
+ 3B7B   00EC    PRINT "FOR THE TESTING AND TROUBLESHOOTING OF VIDEO "
+ 3B89   00EC    PRINT "MONITORS AND PROJECTORS"
+ 3B97   00EC    PRINT " "
+ 3BA5   00EC    PRINT "FOR ANY QUESTIONS EMAIL unclejed613c@yahoo.com"
+ 3BB3   00EC    PRINT "SOFTWARE OPERATES ON ANY MICROSOFT VERSION OF DOS (UP TO
+                 WIN98'S DOS)"
+ 3BC1   00EC    PRINT "AS WELL AS FREEDOS AND DOSBOX"
+ 3BCF   00EC    
+ 3BCF   00EC    
+ 3BCF   00EC    SYSTEM
+ 3BD9   00EC    
+ 3BD9   00EC    CgaWarn:
+ 3BE3   00EC    'if a cga card is installed and you try using ega or vga
+ 3BE3   00EC    'modes you can crash the program or fry the FBT in the monitor
+ 3BE3   00EC    BEEP
+ 3BED   00EC    LOCATE 10, 1
+ 3C08   00EC    COLOR 15, 4
+ 3C23   00EC    PRINT "WARNING!!! CGA CARD INSTALLED-DO NOT USE EGA OR VGA MODE
+                S!"
+ 3C31   00EC    RETURN
+ 3C3B   00EC    Echo:
+ 3C45   00EC    CALL Vgaecho
+ 3C4F   00EC    RETURN
+ 3C59   00EC    Cbal1:
+ 3C63   00EC    CALL Cgabalan
+ 3C6D   00EC    RETURN
+ 3C77   00EC    Smear:
+ 3C81   00EC    CALL Vgavidov
+ 3C8B   00EC    
+ 3C8B   00EC    RETURN
+ 3C95   00EC    
+ 3C95   00EC    Foc2:
+ 3C9F   00EC    CALL Vgafoc2
+ 3CA9   00EC    RETURN
+ 3CB3   00EC    
+ 3CB3   00EC    Foc3:
+ 3CBD   00EC    CALL Vgafoc3
+ 3CC7   00EC    RETURN
+ 3CD1   00EC    Dynhv:
+                                                                      PAGE  20
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 3CDB   00EC    CALL Dynhvreg
+ 3CE5   00EC    RETURN
+ 3CEF   00EC    Lumwin:
+ 3CF9   00EC    CALL Vgalumi
+ 3D03   00EC    RETURN
+ 3D0D   00EC    
+ 3D0D   00EC    Vctr2:
+ 3D17   00EC    CALL Vgactr2
+ 3D21   00EC    RETURN
+ 3D2B   00EC    
+ 3D2B   00EC    Hefoc:
+ 3D35   00EC    CALL Hgcfoc
+ 3D3F   00EC    RETURN
+ 3D49   00EC    
+ 3D49   00EC    Hexh:
+ 3D53   00EC    CALL Hgcxh1
+ 3D5D   00EC    RETURN
+ 3D67   00EC    
+ 3D67   00EC    Hemult:
+ 3D71   00EC    CALL Hgcmulti
+ 3D7B   00EC    RETURN
+ 3D85   00EC    
+ 3D85   00EC    Hescr:
+ 3D8F   00EC    CALL Hgcscr
+ 3D99   00EC    RETURN
+ 3DA3   00EC    
+ 3DA3   00EC    Montxt:
+ 3DAD   00EC    CALL Hgctxt
+ 3DB7   00EC    RETURN
+ 3DC1   00EC    
+ 3DC1   00EC    Phos1:
+ 3DCB   00EC    CALL Beamcur
+ 3DD5   00EC    RETURN
+ 3DDF   00EC    
+ 3DDF   00EC    Herand:
+ 3DE9   00EC    RETURN
+ 3DF3   00EC    
+ 3DF3   00EC    Rgbs:
+ 3DFD   00EC    CALL Rgbstrip
+ 3E07   00EC    RETURN
+ 3E11   00EC    
+ 3E11   00EC    Cloop:
+ 3E1B   00EC    CALL Cgaloop1
+ 3E25   00EC    RETURN
+ 3E2F   00EC    
+ 3E2F   00EC    Eloop:
+ 3E39   00EC    CALL egaloop1
+ 3E43   00EC    RETURN
+ 3E4D   00EC    
+ 3E4D   00EC    
+ 3E4D   00EC    Mloop:
+ 3E57   00EC    CALL Hgcloop1
+ 3E61   00EC    RETURN
+ 3E6B   00EC    
+                                                                      PAGE  21
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 3E6B   00EC    Pur2:
+ 3E75   00EC    CALL Evpur
+ 3E7F   00EC    RETURN
+ 3E89   00EC    
+ 3E89   00EC    Grybox:
+ 3E93   00EC    CALL Vgaref
+ 3E9D   00EC    RETURN
+ 3EA7   00EC    
+ 3EA7   00EC    
+ 3EA7   00EC    Whoa:
+ 3EB1   00EC    'something bad has happened. we want to trap the error and save
+                 it
+ 3EB1   00EC    'so we can figure out what happened
+ 3EB1   00EC    xmb = ModeColor
+ 3EC4   00F0    a = SVGA16(0)
+ 3EE1   00F4    CALL ClearView
+ 3EEB   00F4    a = ModeColor
+ 3EFE   00F6    SCREEN 0
+ 3F13   00F6    CLS
+ 3F21   00F6    COLOR 15, 4
+ 3F3C   00F6    LOCATE 12, 25
+ 3F5A   00F6    PRINT "WARNING! AN ERROR HAS OCCURRED"
+ 3F68   00F6    LOCATE 13, 25
+ 3F86   00F6    PRINT " PRESS ANY KEY TO CONTINUE    "
+ 3F94   00F6    PRINT ERR;
+ 3FA4   00F6    OPEN "tviderr.lst" FOR OUTPUT AS #1
+ 3FBE   00F6    PRINT #1, STR$(ERR);
+ 3FE2   00F6    CLOSE #1
+ 3FF1   00F6    
+ 3FF1   00F6    BEEP
+ 3FFB   00F6    CLEAR
+ 4009   00F6    DO WHILE INKEY$ = ""
+ 4022   00F6    LOOP
+ 402A   00F6    GOTO CardTst
+ 4032   00F6    
+ 4032   00F6    X8xh:
+ 403C   00F6    '800x600 crosshatch
+ 403C   00F6    c$ = ""
+ 404E   00F6    vga1 = SVGA16(0)
+ 406B   00FC    CALL GraphColor(15)
+ 407F   00FE    CALL ClearView
+ 4089   00FE    CALL DrawBox(0, 0, 799, 599, 1)
+ 40C5   0108    FOR x% = 0 TO 799 STEP 50
+ 40D0   0108    CALL DrawBox(0, 0, x%, 599, 1)
+ 4106   0110    NEXT x%
+ 4119   0110    FOR y% = 0 TO 599 STEP 50
+ 4124   0110    CALL DrawBox(0, 0, 799, y%, 1)
+ 415A   0118    NEXT y%
+ 416D   0118    
+ 416D   0118    FOR cr% = 0 TO 540
+ 4178   0118    REM CALL drawcircle(400, 299, cr%, 1)
+ 4178   0118    x1% = INT(50 * SIN(cr%))
+ 41A0   011C    y1% = INT(50 * COS(cr%))
+ 41C8   011E    x2% = INT(100 * SIN(cr%))
+                                                                      PAGE  22
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 41F0   0120    y2% = INT(100 * COS(cr%))
+ 4218   0122    x3% = INT(150 * SIN(cr%))
+ 4240   0124    y3% = INT(150 * COS(cr%))
+ 4268   0126    x4% = INT(200 * SIN(cr%))
+ 4290   0128    y4% = INT(200 * COS(cr%))
+ 42B8   012A    CALL PutDot(x1% + 400, y1% + 300, 1)
+ 42E6   0130    CALL PutDot(x2% + 400, y2% + 300, 1)
+ 4314   0136    CALL PutDot(x3% + 400, y3% + 300, 1)
+ 4342   013C    CALL PutDot(x4% + 400, y4% + 300, 1)
+ 4370   0142    s1% = INT(20 * SIN(cr%))
+ 4398   0144    s2% = INT(40 * SIN(cr%))
+ 43C0   0146    s3% = INT(60 * SIN(cr%))
+ 43E8   0148    s4% = INT(80 * SIN(cr%))
+ 4410   014A    s5% = INT(100 * SIN(cr%))
+ 4438   014C    t1% = INT(20 * COS(cr%))
+ 4460   014E    t2% = INT(40 * COS(cr%))
+ 4488   0150    t3% = INT(60 * COS(cr%))
+ 44B0   0152    t4% = INT(80 * COS(cr%))
+ 44D8   0154    t5% = INT(100 * COS(cr%))
+ 4500   0156    CALL PutDot(s1% + 100, t1% + 100, 1)
+ 452E   015C    CALL PutDot(s2% + 100, t2% + 100, 1)
+ 455C   0162    CALL PutDot(s3% + 100, t3% + 100, 1)
+ 458A   0168    CALL PutDot(s4% + 100, t4% + 100, 1)
+ 45B8   016E    CALL PutDot(s5% + 100, t5% + 100, 1)
+ 45E6   0174    CALL PutDot(s1% + 700, t1% + 100, 1)
+ 4614   017A    CALL PutDot(s2% + 700, t2% + 100, 1)
+ 4642   0180    CALL PutDot(s3% + 700, t3% + 100, 1)
+ 4670   0186    CALL PutDot(s4% + 700, t4% + 100, 1)
+ 469E   018C    CALL PutDot(s5% + 700, t5% + 100, 1)
+ 46CC   0192    CALL PutDot(s1% + 100, t1% + 500, 1)
+ 46FA   0198    CALL PutDot(s2% + 100, t2% + 500, 1)
+ 4728   019E    CALL PutDot(s3% + 100, t3% + 500, 1)
+ 4756   01A4    CALL PutDot(s4% + 100, t4% + 500, 1)
+ 4784   01AA    CALL PutDot(s5% + 100, t5% + 500, 1)
+ 47B2   01B0    CALL PutDot(s1% + 700, t1% + 500, 1)
+ 47E0   01B6    CALL PutDot(s2% + 700, t2% + 500, 1)
+ 480E   01BC    CALL PutDot(s3% + 700, t3% + 500, 1)
+ 483C   01C2    CALL PutDot(s4% + 700, t4% + 500, 1)
+ 486A   01C8    CALL PutDot(s5% + 700, t5% + 500, 1)
+ 4898   01CE    NEXT cr%
+ 48AC   01CE    FOR x% = 0 TO 20 STEP 2
+ 48B6   01CE    xa% = x% - 10
+ 48C4   01CE    xb% = xa% * 2
+ 48D1   01CE    xc1% = xa% + 100
+ 48DF   01D0    xd1% = xb% + 100
+ 48ED   01D2    xc2% = xa% + 700
+ 48FB   01D4    xd2% = xb% + 700
+ 4909   01D6    CALL DrawLine(xd1%, 0, xc1%, 80, 1)
+ 4939   01DC    CALL DrawLine(xd1%, 200, xc1%, 120, 1)
+ 4969   01E2    CALL DrawLine(xd2%, 0, xc2%, 80, 1)
+ 4999   01E8    CALL DrawLine(xd2%, 200, xc2%, 120, 1)
+ 49C9   01EE    CALL DrawLine(xd1%, 600, xc1%, 520, 1)
+ 49F9   01F4    CALL DrawLine(xd1%, 400, xc1%, 480, 1)
+ 4A29   01FA    CALL DrawLine(xd2%, 400, xc2%, 480, 1)
+                                                                      PAGE  23
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 4A59   0200    CALL DrawLine(xd2%, 600, xc2%, 520, 1)
+ 4A89   0206    NEXT x%
+ 4A9F   0206    FOR x% = 0 TO 20 STEP 2
+ 4AAA   0206    xa% = x% - 10
+ 4AB8   0206    xb% = xa% * 2
+ 4AC5   0206    xc1% = xa% + 100
+ 4AD3   0206    xd1% = xb% + 100
+ 4AE1   0206    xc2% = xa% + 500
+ 4AEF   0206    xd2% = xb% + 500
+ 4AFD   0206    CALL DrawLine(0, xd1%, 80, xc1%, 1)
+ 4B2D   020C    CALL DrawLine(200, xd1%, 120, xc1%, 1)
+ 4B5D   0212    CALL DrawLine(600, xd1%, 680, xc1%, 1)
+ 4B8D   0218    CALL DrawLine(800, xd1%, 720, xc1%, 1)
+ 4BBD   021E    CALL DrawLine(0, xd2%, 80, xc2%, 1)
+ 4BED   0224    CALL DrawLine(200, xd2%, 120, xc2%, 1)
+ 4C1D   022A    CALL DrawLine(600, xd2%, 680, xc2%, 1)
+ 4C4D   0230    CALL DrawLine(800, xd2%, 720, xc2%, 1)
+ 4C7D   0236    NEXT x%
+ 4C93   0236    
+ 4C93   0236    FOR x% = 0 TO 799 STEP 5
+ 4C9E   0236    CALL DrawLine(x%, 295, x%, 305, 1)
+ 4CCE   023C    NEXT x%
+ 4CE1   023C    FOR y% = 0 TO 599 STEP 5
+ 4CEC   023C    CALL DrawLine(395, y%, 405, y%, 1)
+ 4D1C   0242    NEXT y%
+ 4D2F   0242    FOR y% = 0 TO 30 STEP 2
+ 4D3A   0242    ya% = y% - 15
+ 4D48   0242    yb% = ya% * 3
+ 4D57   0242    yc% = ya% + 300
+ 4D65   0242    yd% = yb% + 300
+ 4D73   0244    CALL DrawLine(0, yd%, 350, yc%, 1)
+ 4DA3   024A    CALL DrawLine(450, yc%, 799, yd%, 1)
+ 4DD3   0250    NEXT y%
+ 4DE9   0250    FOR x% = 0 TO 30 STEP 2
+ 4DF4   0250    xa% = x% - 15
+ 4E02   0250    xb% = xa% * 3
+ 4E11   0250    xc% = xa% + 400
+ 4E1F   0250    xd% = xb% + 400
+ 4E2D   0252    CALL DrawLine(xd%, 0, xc%, 250, 1)
+ 4E5D   0258    CALL DrawLine(xc%, 350, xd%, 599, 1)
+ 4E8D   025E    NEXT x%
+ 4EA3   025E    CALL GraphColor(0)
+ 4EB7   0260    CALL fillbox(460, 451, 468, 577, 1)
+ 4EF3   026A    FOR y% = 0 TO 15
+ 4EFE   026A    x% = 0
+ 4F09   026A    Z% = INT(x% / 16)
+ 4F2A   026A    CALL GraphColor(x% + y%)
+ 4F42   026C    CALL fillbox((Z% * 8) + 460, (y% * 8) + 451, (Z% * 8) + 466, (y
+                % * 8) + 457, 1)
+ 4F9A   0276    NEXT y%
+ 4FAE   0276    r& = Color16(3, 0, 0)
+ 4FE4   027E    g& = Color16(0, 3, 0)
+ 501A   0286    b& = Color16(0, 0, 3)
+ 5050   028E    m& = Color16(3, 0, 3)
+                                                                      PAGE  24
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 5086   0296    c& = Color16(0, 3, 3)
+ 50BC   029E    y& = Color16(3, 3, 0)
+ 50F2   02A6    w& = Color16(3, 3, 3)
+ 5128   02AE    bk& = Color16(0, 0, 0)
+ 515E   02BA    Scap:
+ 5168   02BA    c$ = ""
+ 517A   02BA    DO WHILE c$ = ""
+ 5192   02BA    c$ = INKEY$
+ 51A6   02BA    LOOP
+ 51AE   02BA    'the keys change the colors of the lines and background
+ 51AE   02BA    IF c$ = "R" OR c$ = "r" THEN GOTO Sr
+ 51F0   02BA    IF c$ = "G" OR c$ = "g" THEN GOTO Sg
+ 5232   02BA    IF c$ = "B" OR c$ = "b" THEN GOTO Sb
+ 5274   02BA    IF c$ = "M" OR c$ = "m" THEN GOTO Sm
+ 52B6   02BA    IF c$ = "C" OR c$ = "c" THEN GOTO Sc
+ 52F8   02BA    IF c$ = "Y" OR c$ = "y" THEN GOTO Sy
+ 533A   02BA    IF c$ = "W" OR c$ = "w" THEN GOTO Sw
+ 537C   02BA    IF c$ = "Z" OR c$ = "z" THEN GOTO Sz
+ 53BE   02BA    IF c$ = CHR$(27) OR c$ = "0" THEN GOTO X8ex
+ 5406   02BA    GOTO Scap
+ 540E   02BA    X8ex:
+ 5418   02BA    GOTO bye99
+ 5420   02BA    Sr:
+ 542A   02BA    CALL PALETTE16(15, r&)
+ 5442   02BC    GOTO Scap
+ 544A   02BC    Sg:
+ 5454   02BC    CALL PALETTE16(15, g&)
+ 546C   02BE    GOTO Scap
+ 5474   02BE    Sb:
+ 547E   02BE    CALL PALETTE16(15, b&)
+ 5496   02C0    GOTO Scap
+ 549E   02C0    Sm:
+ 54A8   02C0    CALL PALETTE16(15, m&)
+ 54C0   02C2    GOTO Scap
+ 54C8   02C2    Sc:
+ 54D2   02C2    CALL PALETTE16(15, c&)
+ 54EA   02C4    GOTO Scap
+ 54F2   02C4    Sy:
+ 54FC   02C4    CALL PALETTE16(15, y&)
+ 5514   02C6    GOTO Scap
+ 551C   02C6    Sw:
+ 5526   02C6    CALL PALETTE16(15, w&)
+ 553E   02C8    CALL PALETTE16(0, bk&)
+ 5556   02CA    GOTO Scap
+ 555E   02CA    Sz:
+ 5568   02CA    CALL PALETTE16(15, bk&)
+ 5580   02CC    CALL PALETTE16(0, w&)
+ 5598   02CE    GOTO Scap
+ 55A0   02CE    bye99:
+ 55AA   02CE    a = ModeColor
+ 55BD   02D0    
+ 55BD   02D0    CALL XModeClear
+ 55C7   02D0    GOTO SvgaM
+ 55CF   02D0    
+                                                                      PAGE  25
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 55CF   02D0    X8mult:
+ 55D9   02D0    
+ 55D9   02D0    '800x600 multiburst
+ 55D9   02D0    'for testing video amp bandwidth
+ 55D9   02D0    
+ 55D9   02D0    c$ = ""
+ 55EB   02D0    vga2 = SVGA16(0)
+ 5608   02D6    CALL GraphColor(15)
+ 561C   02D8    CALL ClearView
+ 5626   02D8    Main8:
+ 5630   02D8    
+ 5630   02D8    x% = 0
+ 563B   02D8    p% = 2
+ 5646   02DA    Lp8:
+ 5650   02DA    x% = x% + p%
+ 565C   02DA    CALL DrawBox(x%, 0, (x% + INT(p% / 2.2)), 599, 1)
+ 56B2   02E4    CALL fillbox(x%, 0, (x% + INT(p% / 2.2)), 599, 0)
+ 5708   02EE    p% = 1 + INT(x% / 40)
+ 572E   02EE    IF x% < 800 THEN GOTO Lp8
+ 5746   02EE    DO WHILE INKEY$ = ""
+ 5760   02EE    LOOP
+ 5768   02EE    a = ModeColor
+ 577B   02F0    a = SVGA16(0)
+ 5798   02F4    CALL ClearView
+ 57A2   02F4    a = ModeColor
+ 57B5   02F6    SCREEN 0
+ 57CA   02F6    GOTO SvgaM
+ 57D2   02F6    
+ 57D2   02F6    X8foc:
+ 57DC   02F6    '800x600 focus pattern
+ 57DC   02F6    c$ = ""
+ 57EE   02F6    vga1 = SVGA16(0)
+ 580B   02FA    CALL GraphColor(15)
+ 581F   02FC    CALL ClearView
+ 5829   02FC    FOR x% = 0 TO 799 STEP 2
+ 5834   02FC    CALL DrawLine(x%, 0, x%, 599, 0)
+ 5864   0302    NEXT x%
+ 5877   0302    FOR x% = 0 TO 599 STEP 2
+ 5882   0302    CALL DrawLine(0, x%, 799, x%, 0)
+ 58B2   0308    NEXT x%
+ 58C5   0308    DO WHILE INKEY$ = ""
+ 58DE   0308    LOOP
+ 58E6   0308    a = ModeColor
+ 58F9   030A    a = SVGA16(0)
+ 5916   030E    CALL ClearView
+ 5920   030E    a = ModeColor
+ 5933   0310    SCREEN 0
+ 5948   0310    GOTO SvgaM
+ 5950   0310    X8foc2:
+ 595A   0310    'another 800x600 focus pattern
+ 595A   0310    c$ = ""
+ 596C   0310    vga1 = SVGA16(0)
+ 5989   0314    
+ 5989   0314    CALL GraphColor(15)
+                                                                      PAGE  26
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 599D   0316    CALL ClearView
+ 59A7   0316    CALL DrawBox(0, 0, 799, 599, 1)
+ 59E3   0320    FOR x% = 0 TO 799 STEP 4
+ 59EE   0320    CALL DrawBox(0, 0, x%, 599, 1)
+ 5A24   0328    NEXT x%
+ 5A37   0328    FOR y% = 0 TO 599 STEP 4
+ 5A42   0328    CALL DrawBox(0, 0, 799, y%, 1)
+ 5A78   0330    NEXT y%
+ 5A8B   0330    FOR cr% = 5 TO 795 STEP 5
+ 5A96   0330    REM CALL drawcircle(400, 300, cr%, 0)
+ 5A96   0330    CALL DrawLine(400, 300, cr%, 0, 0)
+ 5ACC   0338    CALL DrawLine(400, 300, cr%, 599, 0)
+ 5B02   0340    REM CALL drawline(400, 300, 0, cr%, 0)
+ 5B02   0340    REM CALL drawline(400, 300, 799, cr%)
+ 5B02   0340    NEXT cr%
+ 5B15   0340    FOR cr% = 5 TO 595 STEP 5
+ 5B20   0340    CALL DrawLine(400, 300, 0, cr%, 0)
+ 5B56   0348    CALL DrawLine(400, 300, 799, cr%, 0)
+ 5B8C   0350    NEXT cr%
+ 5B9F   0350    DO WHILE INKEY$ = ""
+ 5BB8   0350    LOOP
+ 5BC0   0350    a = ModeColor
+ 5BD3   0352    a = SVGA16(0)
+ 5BF0   0356    CALL ClearView
+ 5BFA   0356    a = ModeColor
+ 5C0D   0358    SCREEN 0
+ 5C22   0358    GOTO SvgaM
+ 5C2A   0358    
+ 5C2A   0358    X8txt:
+ 5C34   0358    '800x600 text screen
+ 5C34   0358    vga1 = SVGA16(0)
+ 5C51   035C    CALL ClearView
+ 5C5B   035C    CALL GraphColor(15)
+ 5C6F   035E    st$ = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRST
+                UVWXYZ~!@#$%^&*()_+|`{}[];:'<>.,/?abcdefghi"
+ 5C81   0362    FOR y% = 1 TO 590 STEP 12
+ 5C8C   0362    CALL gprint(st$, 1, y%, 1)
+ 5CB2   0366    NEXT y%
+ 5CC5   0366    DO WHILE INKEY$ = ""
+ 5CDE   0366    LOOP
+ 5CE6   0366    a = ModeColor
+ 5CF9   0368    a = SVGA16(0)
+ 5D16   036C    CALL ClearView
+ 5D20   036C    a = ModeColor
+ 5D33   036E    SCREEN 0
+ 5D48   036E    GOTO SvgaM
+ 5D50   036E    X813p:
+ 5D5A   036E    'mode 13x is a special 800x600 mode with a different refresh ra
+                te
+ 5D5A   036E    CALL Vga13x(3)
+ 5D6E   0370    CALL ClearView
+ 5D78   0370    u% = 0
+ 5D83   0372    FOR y% = 0 TO 7
+ 5D8E   0372    FOR x% = 341 TO 0 STEP -11
+                                                                      PAGE  27
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 5D9A   0372    Z% = y% * 20
+ 5DA9   0372    s% = x% + 9
+ 5DB7   0374    t% = Z% + 18
+ 5DC5   0376    CALL GraphColor(u%)
+ 5DD3   0376    CALL fillbox(x%, Z%, s%, t%, 1)
+ 5DF7   0378    CALL fillbox(x%, Z% + 240, s%, t% + 240, 1)
+ 5E2D   037E    u% = u% + 1
+ 5E36   037E    NEXT x%
+ 5E4B   037E    NEXT y%
+ 5E5F   037E    u% = 0
+ 5E6A   037E    FOR x% = 0 TO 341 STEP 11
+ 5E74   037E    CALL GraphColor(u%)
+ 5E82   037E    CALL fillbox(x%, 160, x% + 9, 235, 1)
+ 5EBB   0386    CALL fillbox(x%, 400, x% + 9, 480, 1)
+ 5EF4   038E    u% = u% + 1
+ 5EFD   038E    NEXT x%
+ 5F13   038E    DO WHILE INKEY$ = ""
+ 5F2C   038E    LOOP
+ 5F34   038E    a = ModeColor
+ 5F47   0390    a = SVGA16(0)
+ 5F64   0394    CALL ClearView
+ 5F6E   0394    a = ModeColor
+ 5F81   0396    GOTO SvgaM
+ 5F89   0396    S400A:
+ 5F93   0396    CALL Vga13x(2)
+ 5FA7   0398    CALL ClearView
+ 5FB1   0398    CALL GraphColor(15)
+ 5FC5   039A    CALL DrawBox(0, 0, 319, 399, 1)
+ 6001   03A4    FOR x% = -1 TO 479 STEP 32
+ 600C   03A4    CALL DrawLine(x%, 0, x%, 479, 1)
+ 603C   03AA    REM CALL drawline(x%, 329, x%, 329, 1)
+ 603C   03AA    NEXT x%
+ 604F   03AA    CALL DrawLine(0, 26, 319, 26, 1)
+ 608B   03B4    CALL DrawLine(0, 80, 319, 80, 1)
+ 60C7   03BE    CALL DrawLine(0, 200, 319, 200, 1)
+ 6103   03C8    CALL DrawLine(159, 0, 159, 479, 1)
+ 613F   03D2    CALL DrawBox(78, 80, 240, 307, 1)
+ 617B   03DC    CALL DrawLine(0, 137, 319, 137, 1)
+ 61B7   03E6    CALL DrawLine(0, 253, 319, 253, 1)
+ 61F3   03F0    FOR cr% = 0 TO 1024
+ 61FE   03F0    x1% = INT(12 * SIN(cr%))
+ 6226   03F0    y1% = INT(20 * COS(cr%))
+ 624E   03F0    CALL PutDot(x1% + 16, y1% + 52, 1)
+ 627C   03F6    CALL PutDot(x1% + 16, y1% + 336, 1)
+ 62AA   03FC    CALL PutDot(x1% + 303, y1% + 52, 1)
+ 62D8   0402    CALL PutDot(x1% + 303, y1% + 336, 1)
+ 6306   0408    
+ 6306   0408    REM CALL circleaspect(9, 1)
+ 6306   0408    REM CALL drawcircle(16, 52, 12, 1)
+ 6306   0408    
+ 6306   0408    REM CALL drawcircle(16, 336, 12, 1)
+ 6306   0408    REM CALL drawcircle(303, 52, 12, 1)
+ 6306   0408    REM CALL drawcircle(303, 336, 12, 1)
+ 6306   0408    NEXT cr%
+                                                                      PAGE  28
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 631A   0408    CALL DrawLine(0, 307, 319, 307, 1)
+ 6356   0412    CALL DrawLine(0, 365, 319, 365, 1)
+ 6392   041C    FOR x% = 0 TO 78
+ 639C   041C    f% = INT(x% / 5)
+ 63BD   041E    CALL GraphColor(f% + 16)
+ 63D4   0420    CALL fillbox(x% + 79, 136, x% + 80, 199, 1)
+ 6416   042A    CALL GraphColor(f%)
+ 6424   042A    CALL fillbox(x% + 160, 136, x% + 161, 199, 1)
+ 6466   0434    CALL GraphColor(f% + 32)
+ 647D   0436    CALL fillbox(x% + 79, 201, x% + 80, 253, 1)
+ 64BF   0440    CALL GraphColor(f% + 48)
+ 64D6   0442    CALL fillbox(x% + 160, 201, x% + 161, 253, 1)
+ 6518   044C    NEXT x%
+ 652C   044C    CALL GraphColor(17)
+ 6540   044E    CALL fillbox(81, 83, 155, 133, 1)
+ 657C   0458    CALL GraphColor(23)
+ 6590   045A    CALL fillbox(163, 83, 237, 133, 1)
+ 65CC   0464    CALL GraphColor(27)
+ 65E0   0466    CALL fillbox(163, 256, 237, 302, 1)
+ 661C   0470    CALL GraphColor(15)
+ 6630   0472    CALL fillbox(81, 256, 155, 302, 1)
+ 666C   047C    FOR x% = 2 TO 318 STEP 2
+ 6678   047C    CALL DrawLine(x%, 198, x%, 202, 0)
+ 66A8   0482    NEXT x%
+ 66BB   0482    FOR y% = 1 TO 398 STEP 4
+ 66C6   0482    CALL DrawLine(158, y%, 160, y%, 0)
+ 66F6   0488    NEXT y%
+ 6709   0488    DO WHILE INKEY$ = ""
+ 6722   0488    LOOP
+ 672A   0488    CALL circleaspect(1, 1)
+ 6748   048C    a = ModeColor
+ 675B   048E    a = SVGA16(0)
+ 6778   0492    CALL ClearView
+ 6782   0492    a = ModeColor
+ 6795   0494    
+ 6795   0494    GOTO VxhM
+ 679D   0494    
+ 679D   0494    X10xh:
+ 67A7   0494    
+ 67A7   0494    '1924x768 crosshatch
+ 67A7   0494    
+ 67A7   0494    CALL XModeClear
+ 67B1   0494    x10 = IsSEVGA
+ 67C4   0498    mode1 = SVGA16(1)
+ 67E1   049E    CALL ClearView
+ 67EB   049E    CALL setview(0, 0, 1023, 767)
+ 681D   04A6    CALL GraphColor(15)
+ 6831   04A8    CALL DrawBox(0, 0, 1023, 767, 1)
+ 686D   04B2    REM CIRCLE (512, 348), 200
+ 686D   04B2    REM CALL circleaspect(9, 2)
+ 686D   04B2    REM CALL drawcircle(512, 384, 44, 1)
+ 686D   04B2    FOR x% = 0 TO 1024
+ 6878   04B2    x1% = INT(64 * SIN(x%))
+ 68A0   04B2    y1% = INT(64 * COS(x%))
+                                                                      PAGE  29
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 68C8   04B2    zx% = INT(128 * SIN(x%))
+ 68F0   04B4    zy% = INT(128 * COS(x%))
+ 6918   04B6    
+ 6918   04B6    y% = INT(256 * SIN(x%))
+ 6940   04B6    Z% = INT(256 * COS(x%))
+ 6968   04B6    CALL PutDot(zx% + 128, zy% + 128, 1)
+ 6996   04BC    CALL PutDot(zx% + 896, zy% + 128, 1)
+ 69C4   04C2    CALL PutDot(zx% + 128, zy% + 640, 1)
+ 69F2   04C8    CALL PutDot(zx% + 896, zy% + 640, 1)
+ 6A20   04CE    
+ 6A20   04CE    CALL PutDot(Z% + 512, y% + 384, 1)
+ 6A4E   04D4    CALL PutDot(x1% + 512, y1% + 384, 1)
+ 6A7C   04DA    CALL PutDot(x1% + 128, y1% + 128, 1)
+ 6AAA   04E0    CALL PutDot(x1% + 896, y1% + 128, 1)
+ 6AD8   04E6    CALL PutDot(x1% + 128, y1% + 640, 1)
+ 6B06   04EC    CALL PutDot(x1% + 896, y1% + 640, 1)
+ 6B34   04F2    NEXT x%
+ 6B48   04F2    CALL DrawLine(0, 0, 1024, 768, 1)
+ 6B84   04FC    CALL DrawLine(0, 768, 1024, 0, 1)
+ 6BC0   0506    FOR x% = 0 TO 1023 STEP 32
+ 6BCA   0506    CALL DrawLine(x%, 0, x%, 767, 1)
+ 6BFA   050C    NEXT x%
+ 6C0D   050C    FOR y% = 0 TO 767 STEP 32
+ 6C18   050C    CALL DrawLine(0, y%, 1023, y%, 1)
+ 6C48   0512    NEXT y%
+ 6C5B   0512    Z% = 1
+ 6C66   0512    FOR y% = 0 TO 30 STEP 2
+ 6C70   0512    ya% = y% - 15
+ 6C7E   0512    yb% = ya% * 4
+ 6C8D   0512    yc% = ya% + 384
+ 6C9B   0512    yd% = yb% + 384
+ 6CA9   0512    CALL DrawLine(0, yd%, 448, yc%, 1)
+ 6CD9   0518    CALL DrawLine(576, yc%, 1023, yd%, 1)
+ 6D09   051E    NEXT y%
+ 6D1F   051E    FOR x% = 0 TO 30 STEP 2
+ 6D2A   051E    xa% = x% - 15
+ 6D38   051E    xb% = xa% * 4
+ 6D47   051E    xc% = xa% + 512
+ 6D55   051E    xd% = xb% + 512
+ 6D63   051E    CALL DrawLine(xd%, 0, xc%, 320, 1)
+ 6D93   0524    CALL DrawLine(xc%, 448, xd%, 767, 1)
+ 6DC3   052A    NEXT x%
+ 6DD9   052A    FOR x% = 0 TO 64 STEP 4
+ 6DE4   052A    CALL DrawLine(128, 128, 0, x% + 96, 1)
+ 6E23   0534    CALL DrawLine(128, 128, 256, x% + 96, 1)
+ 6E62   053E    CALL DrawLine(896, 128, 1023, x% + 96, 1)
+ 6EA1   0548    CALL DrawLine(896, 128, 768, x% + 96, 1)
+ 6EE0   0552    CALL DrawLine(128, 640, 0, x% + 608, 1)
+ 6F1F   055C    CALL DrawLine(128, 640, 256, x% + 608, 1)
+ 6F5E   0566    CALL DrawLine(896, 640, 1023, x% + 608, 1)
+ 6F9D   0570    CALL DrawLine(896, 640, 768, x% + 608, 1)
+ 6FDC   057A    CALL DrawLine(128, 128, x% + 96, 0, 1)
+ 701B   0584    CALL DrawLine(128, 128, x% + 96, 256, 1)
+ 705A   058E    CALL DrawLine(896, 128, x% + 864, 256, 1)
+                                                                      PAGE  30
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 7099   0598    CALL DrawLine(896, 128, x% + 864, 0, 1)
+ 70D8   05A2    CALL DrawLine(128, 640, x% + 96, 512, 1)
+ 7117   05AC    CALL DrawLine(128, 640, x% + 96, 768, 1)
+ 7156   05B6    CALL DrawLine(896, 640, x% + 864, 768, 1)
+ 7195   05C0    CALL DrawLine(896, 640, x% + 864, 512, 1)
+ 71D4   05CA    
+ 71D4   05CA    NEXT x%
+ 71EA   05CA    r% = Color16(3, 0, 0)
+ 721B   05D4    g% = Color16(0, 3, 0)
+ 724C   05DE    b% = Color16(0, 0, 3)
+ 727D   05E8    m% = Color16(3, 0, 3)
+ 72AE   05F2    c% = Color16(0, 3, 3)
+ 72DF   05FC    y% = Color16(3, 3, 0)
+ 7310   0604    w% = Color16(3, 3, 3)
+ 7341   060E    bk% = Color16(0, 0, 0)
+ 7372   0618    Scap1:
+ 737C   0618    c$ = ""
+ 738E   0618    DO WHILE c$ = ""
+ 73A6   0618    c$ = INKEY$
+ 73BA   0618    LOOP
+ 73C2   0618    IF c$ = "R" OR c$ = "r" THEN GOTO Sr1
+ 7404   0618    IF c$ = "G" OR c$ = "g" THEN GOTO Sg1
+ 7446   0618    IF c$ = "B" OR c$ = "b" THEN GOTO Sb1
+ 7488   0618    IF c$ = "M" OR c$ = "m" THEN GOTO Sm1
+ 74CA   0618    IF c$ = "C" OR c$ = "c" THEN GOTO Sc1
+ 750C   0618    IF c$ = "Y" OR c$ = "y" THEN GOTO Sy1
+ 754E   0618    IF c$ = "W" OR c$ = "w" THEN GOTO Sw1
+ 7590   0618    IF c$ = "Z" OR c$ = "z" THEN GOTO Sz1
+ 75D2   0618    IF c$ = CHR$(27) OR c$ = "0" THEN GOTO X10ex
+ 761A   0618    GOTO Scap
+ 7622   0618    X10ex:
+ 762C   0618    GOTO bye3
+ 7634   0618    Sr1:
+ 763E   0618    CALL PALETTE16(15, r%)
+ 7656   061A    GOTO Scap1
+ 765E   061A    Sg1:
+ 7668   061A    CALL PALETTE16(15, g%)
+ 7680   061C    GOTO Scap1
+ 7688   061C    Sb1:
+ 7692   061C    CALL PALETTE16(15, b%)
+ 76AA   061E    GOTO Scap1
+ 76B2   061E    Sm1:
+ 76BC   061E    CALL PALETTE16(15, m%)
+ 76D4   0620    GOTO Scap1
+ 76DC   0620    Sc1:
+ 76E6   0620    CALL PALETTE16(15, c%)
+ 76FE   0622    GOTO Scap1
+ 7706   0622    Sy1:
+ 7710   0622    CALL PALETTE16(15, y%)
+ 7728   0624    GOTO Scap1
+ 7730   0624    Sw1:
+ 773A   0624    CALL PALETTE16(15, w%)
+ 7752   0626    CALL PALETTE16(0, bk%)
+ 776A   0628    GOTO Scap1
+                                                                      PAGE  31
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 7772   0628    Sz1:
+ 777C   0628    CALL PALETTE16(15, bk%)
+ 7794   062A    CALL PALETTE16(0, w%)
+ 77AC   062C    GOTO Scap1
+ 77B4   062C    bye3:
+ 77BE   062C    a = ModeColor
+ 77D1   062E    CALL XModeClear
+ 77DB   062E    GOTO SvgaM
+ 77E3   062E    
+ 77E3   062E    X10mult:
+ 77ED   062E    '1024x768 multiburst
+ 77ED   062E    SCREEN 12
+ 7803   062E    x = IsSEVGA
+ 7816   0630    mode1 = SVGA16(1)
+ 7833   0634    CALL ClearView
+ 783D   0634    CALL setview(0, 0, 1023, 767)
+ 786F   063C    CALL GraphColor(15)
+ 7883   063E    X10mu:
+ 788D   063E    c$ = ""
+ 789F   063E    Main10:
+ 78A9   063E    
+ 78A9   063E    x% = 0
+ 78B4   063E    p% = 2
+ 78BF   063E    Lp10:
+ 78C9   063E    x% = x% + p%
+ 78D5   063E    CALL DrawBox(x%, 0, (x% + INT(p% / 2.2)), 767, 1)
+ 792B   0648    CALL fillbox(x%, 0, (x% + INT(p% / 2.2)), 767, 0)
+ 7981   0652    p% = 1 + INT(x% / 40)
+ 79A7   0652    IF x% < 1024 THEN GOTO Lp10
+ 79BF   0652    DO WHILE INKEY$ = ""
+ 79D8   0652    LOOP
+ 79E0   0652    bye4:
+ 79EA   0652    a = ModeColor
+ 79FD   0654    CALL XModeClear
+ 7A07   0654    GOTO SvgaM
+ 7A0F   0654    X10foc1:
+ 7A19   0654    
+ 7A19   0654    '1024x768 focus pattern
+ 7A19   0654    
+ 7A19   0654    SCREEN 12
+ 7A2F   0654    x = IsSEVGA
+ 7A42   0656    mode1 = SVGA16(1)
+ 7A5F   065A    CALL ClearView
+ 7A69   065A    CALL setview(0, 0, 1023, 767)
+ 7A9B   0662    CALL GraphColor(15)
+ 7AAF   0664    FOR x% = 0 TO 1023 STEP 3
+ 7ABA   0664    CALL DrawLine(x%, 0, x%, 767, 0)
+ 7AEA   066A    NEXT x%
+ 7AFD   066A    FOR x% = 0 TO 767 STEP 3
+ 7B08   066A    CALL DrawLine(0, x%, 1023, x%, 0)
+ 7B38   0670    NEXT x%
+ 7B4B   0670    DO WHILE INKEY$ = ""
+ 7B64   0670    LOOP
+ 7B6C   0670    bye5:
+                                                                      PAGE  32
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 7B76   0670    
+ 7B76   0670    CALL XModeClear
+ 7B80   0670    a = ModeColor
+ 7B93   0672    GOTO SvgaM
+ 7B9B   0672    X10foc2:
+ 7BA5   0672    
+ 7BA5   0672    '1024x768 focus windowed version
+ 7BA5   0672    SCREEN 12
+ 7BBB   0672    x = IsSEVGA
+ 7BCE   0674    mode1 = SVGA16(1)
+ 7BEB   0678    CALL ClearView
+ 7BF5   0678    CALL setview(0, 0, 1023, 767)
+ 7C27   0680    CALL GraphColor(15)
+ 7C3B   0682    FOR x% = 0 TO 1023 STEP 5
+ 7C46   0682    CALL DrawLine(x%, 0, x%, 767, 1)
+ 7C76   0688    NEXT x%
+ 7C89   0688    FOR x% = 0 TO 767 STEP 5
+ 7C94   0688    CALL DrawLine(0, x%, 1023, x%, 1)
+ 7CC4   068E    NEXT x%
+ 7CD7   068E    FOR x% = 0 TO 767 STEP 5
+ 7CE2   068E    CALL DrawLine(511, 384, 0, x%, 0)
+ 7D18   0696    CALL DrawLine(511, 384, 1023, x%, 0)
+ 7D4E   069E    NEXT x%
+ 7D61   069E    FOR x% = 0 TO 1023 STEP 5
+ 7D6C   069E    CALL DrawLine(511, 384, x%, 0, 0)
+ 7DA2   06A6    CALL DrawLine(511, 384, x%, 767, 0)
+ 7DD8   06AE    NEXT x%
+ 7DEB   06AE    DO WHILE INKEY$ = ""
+ 7E04   06AE    LOOP
+ 7E0C   06AE    bye6:
+ 7E16   06AE    a = ModeColor
+ 7E29   06B0    CALL XModeClear
+ 7E33   06B0    
+ 7E33   06B0    GOTO SvgaM
+ 7E3B   06B0    
+ 7E3B   06B0    
+ 7E3B   06B0    X10txt:
+ 7E45   06B0    
+ 7E45   06B0    '1024x768 text screen
+ 7E45   06B0    
+ 7E45   06B0    SCREEN 12
+ 7E5B   06B0    x = IsSEVGA
+ 7E6E   06B2    mode1 = SVGA16(1)
+ 7E8B   06B6    CALL ClearView
+ 7E95   06B6    CALL setview(0, 0, 1023, 767)
+ 7EC7   06BE    CALL GraphColor(15)
+ 7EDB   06C0    a$ = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTU
+                VWXYZฎฏฐฑฒณดตถทธนบปผฝพฟภมยรฤลฦวศษสหฬอฮฯะัาำิีึืฺุูÛÜÞÝÞ฿Þโใไๅๆ็
+                ่้๊๐๑๒๓๕เ"
+ 7EED   06C4    CALL smalltext
+ 7EF7   06C4    FOR y% = 8 TO 767 STEP 8
+ 7F02   06C4    CALL gprint(a$, 0, y%, 1)
+ 7F28   06C8    NEXT y%
+ 7F3B   06C8    DO WHILE INKEY$ = ""
+                                                                      PAGE  33
+                                                                      04 Jul 11
+                                                                      21:41:18
+Offset  Data    Source Line      Microsoft (R) QuickBASIC Compiler Version 4.50
+
+ 7F54   06C8    LOOP
+ 7F5C   06C8    bye9:
+ 7F66   06C8    a = ModeColor
+ 7F79   06CA    CALL XModeClear
+ 7F83   06CA    GOTO SvgaM
+ 7F8B   06CA    
+ 7F8B   06CA    
+ 7F92   06CA    
+
+43965 Bytes Available
+16816 Bytes Free
+
+    0 Warning Error(s)
+    0 Severe  Error(s)
