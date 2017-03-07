@@ -13,3 +13,6 @@ i released this freeware version in 2011, which is the complete software
 with over 100 test patterns. when i released it, i didn't think to release
 the source code, but i am including it here.  to build from source
 code requires QuickBasic 4.5 and a shareware library called QLIB58.
+
+instructions for using vtb45 are included in the zip file.
+i will not be making any additions to this software as it's an old project.
