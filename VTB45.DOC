@@ -1,0 +1,577 @@
+
+
+
+
+
+
+                           VIDEO TEST BENCH V 4.5
+                               USER'S MANUAL
+                       (C) 2010 BY WARREN C. MARTIN
+
+
+
+
+                    збббббббббббббббббббббббббббббббб©
+                    цееееееееееееееееееееееееееееееее╢
+                    цееееееееееееееееееееееееееееееее╢
+                    цееееееееееееееееееееееееееееееее╢
+                    цееееееееееееееееееееееееееееееее╢
+                    цееееееVIDEO TEST BENCH V4.5еееее╢
+                    цееееееееееееееееееееееееееееееее╢
+                    цееееееееееееееееееееееееееееееее╢
+                    цееееееееееееееееееееееееееееееее╢
+                    цееееееееееееееееееееееееееееееее╢
+                    юааааааааааааааааааааааааааааааааы
+
+
+
+NOTE: This was the manual that shipped with V3.0, and was the only copy of
+the manual I still have after uncounted migrations from the original '486
+machine i developed this software on, to the relatively new machine i'm
+currently using. This manual doesn't outline the use of the SVGA patterns,
+but they're much the same as the VGA patterns in usage. I did begin making
+some changes in the first part of the manual, but it'll be a while before I
+complete it.
+
+If you have further questions, email me at unclejed613c@yahoo.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VIDEO TEST BENCH V4.5
+
+INTRODUCTION:
+   VIDEO TEST BENCH V4.5 IS A COMPREHENSIVE TEST PATTERN GENERATOR PROGRAM
+   WITH MONO, CGA, EGA,VGA,AND SVGA TEST PATTERNS. I HOPE THAT THIS PROGRAM
+   PROVES AS USEFUL TO YOU AS IT DOES TO ME FOR TROUBLESHOOTING AND ALIGNING
+   COMPUTER MONITORS. As for the reason I wrote it, the company that I
+   work for couldn't afford a video test generator (about $3000) when I
+   began working for them. At my previous job, I had used one extensively.
+   But at my new job, the company did mostly computer assembly, setup
+   and repair, and not much monitor work. The existing software was
+   slow, cumbersome, didn't make proper use of video modes, and had very few
+   useable test patterns. It was based on a popular DATABASE MANAGEMENT
+   SYSTEM, with a totally bizarre video command set. I began to write
+   a few simple, but useful patterns in (much quicker and friendly) QBASIC
+   and compiled them as .EXE files. Soon I had enough patterns that I
+   no longer missed having a test generator. But hard drive space began
+   to catch up to me, and I put all of the separate patterns "under one
+   roof" along with their own menu.
+
+GENERAL INFO AND NOTES
+   1> Most of the test patterns are referenced for FULL BRIGHTNESS AND
+      EITHER CENTER CONTRAST (for mono, cga, and ega) OR FULL CONTRAST
+      (for vga) unless otherwise indicated.
+
+   2> To simplify equipment requirements, I suggest a Trident or Oak
+      video card with both analog and TTL outputs. These cards generally
+      can run mono, cga, ega and vga modes. The mode selector DIP switches
+      can be run "remote" with a piece of ribbon cable and a remote switch
+      box.
+
+   3> SVGA was added in 1996
+
+   4> The program has been tested with DOS versions 3.3, 5.0, and 6.22.
+      It also works with the "DOS" that came with Win9x, but not with
+      any hardware abstraced OS (Win@k, WinXP, etc...).
+      Hardware requirements are- IBM compatible with at least 256 k
+      of memory, and a video card appropriate for the monitor under test.
+      Obviously, the faster the pc, the better. I've used this program
+      on a '486 DX/50 and it draws lightning fast, but economically
+      a '286 is probably the best choice between speed and cost.
+      A '286 laptop is probably a good idea for a field tester, since
+      it's portable and easy to set up.
+
+   5> Some patterns (namely the VGA RGBI and the 64 STEP GRAY SCALE) take
+      from 20 to 60 seconds to draw on an 8088 or 8086 or a slow (6 or 8 Mhz)
+      '286.
+
+   6> Unlike prior versions of VIDEO TEST BENCH, all patterns and menus can
+      be exited with the <ESC> key. The VGA TEST LOOP and the MODE SWITCHING
+      test patterns do not exit immediately. These two patterns each have
+      a single exit point, and you may have to wait for the loop to run it's
+      course.
+
+   7> When setting up a vga card, be certain that the card is configured
+      for COLOR VGA and not MONO VGA. VIDEO TEST BENCH will return an
+      error message (Illegal function call) if a card set up for MONO VGA
+      is used. Mono vga monitors can be tested with the card in COLOR mode.
+      The GREEN video line is used to drive the monitor.
+
+   8> The 200 LINE (400 LINE VGA) CROSSHATCH) pattern only allows
+      the colors to be changed when a CGA monitor is being tested.
+      The commands for the crosshatch pattern are: R red, G green, B blue,
+      M magenta, C cyan, Y yellow, W white, Z reverse video (ega,vga),
+      and X or <ESC> to exit.
+
+   9> VTB 4.5 will run from Windows 3.1, 95, and 98, but make sure you have
+      at least 4 meg of memory. Otherwise Windows may corrupt the existing
+      test pattern if you swap out to another application and back
+      to VTB 4.5. Again, VTB will not run on OS's that use hardware
+      abstraction (i.e. Windows NT, 2000, XP, Vista and 7).
+
+  10> Where a particular test pattern has particular relevance to the use
+      of a oscilloscope, I have added notes to explain the use of an
+      oscilloscope with that particular test pattern. For VGA and SVGA
+      monitors, an oscilloscope with a minimum of 100MHz bandwidth is
+      recommended for troubleshooting video amp problems, as the pixel
+      clock for some modes is about 100MHz. There is some leeway with
+      analog scopes, but with a digital scope, the published bandwidth
+      is usually a hard limit (Nyquist limit) at half the sample rate.
+
+
+ ******  SOME NOTES ADDED 19NOV26 ******
+
+
+
+ADDITIONS AND CHANGES FOR VERSION 3.0:
+   1> VTB 3.0 now autodetects the video card and in most cases brings
+      the program up in the appropriate menu (MONO,CGA,EGA,VGA).
+      The only case i have so far discovered so far where the autodetect
+      doesn't function has been a Compaq Portable with the CGA compatible
+      MONO/COLOR card. In such a case, VTB 3.0 defaults to the MAIN MENU.
+      VTB 3.0  will autodetect the mode to which an OAK 037 or TRIDENT
+      VGA card has been set with DIP switches.
+
+   2> VTB's PURITY test has been changed. Instead of stepping through
+      red, green, blue, and white screens, the commands R, G, B, W, and
+      <ESC> have been implemented in the same manner as the crosshatch
+      patterns. Also the commands R, G, B, M, C, Y, and <ESC> have
+      been implemented in the STANDARD LUMINANCE WINDOWS pattern.
+
+   3> The PHOSPHOR IONIZATION pattern now times out the necessary
+      3 minutes, but alas does not allow the 3 minute countdown to be
+      aborted. I usually use the time to either check other monitors
+      already burning in, or take a 3 minute break.
+
+   4> VTB 3.0 includes test loops for CGA, EGA, and MONO monitors.
+
+   5> VTB 3.0 includes 2 new test patterns in the VGA COLOR BAR MENU.
+      RGB STRIPES and GREY SCALE REFERENCE.
+
+
+
+THE MENUS AND THEIR TEST PATTERNS:
+ 1> CGA MENU
+    1> COLOR BARS   This pattern consists of 16 color bars displaying the
+                    standard IBM color set. This pattern is useful for
+                    checking overall color balance, intermittant video
+                    cables, brightness and contrast settings, and TEXT
+                    SWITCH operation on CGA monitors.
+
+    2> CENTERING    For adjusting V and H centering. The pattern consists
+                    of a screen size box woth two diagonal lines through it,
+                    and two small circles in the center. The two circles
+                    represent centering errors of 5% for the small circle,
+                    and 10% for the larger one. Centering error is estimated
+                    by placing two strings from corner to corner diagonally
+                    across the face of the tube and observing the point
+                    at which the strings intersect. If they intersect
+                    within the small circle, the centering is acceptable.
+
+    3> HV REGULATION  This pattern has a box around the edge of the screen,
+                    and a slightly smaller solid block which appears and
+                    disappears. As the block appears and disappears, the
+                    box around the outside of the screen should not shift
+                    more than half the width of a text line.
+
+    4> CROSSHATCH   For adjusting V HGT, V LIN, H WIDTH, PINCUSHION, &
+                    CONVERGENCE. Commands are <R> red, <G> green,
+                    <B> blue, <M> magenta, <C> cyan, <Y> yellow,
+                    <W> white, <X> exit. The most common use for the
+                    color switching feature is magenta lines for
+                    R-B convergence, and yellow lines for R-G convergence,
+                    then white lines to check overall convergence and
+                    other adjustments. Convergence adjustments can be
+                    tricky, and may take several passes to get it right.
+                    Convergence adjustments take time, patience and
+                    practice. Usually, the center of the screen should be
+                    almost perfect, and some (about a half of a pixel width)
+                    misconvergence at the edges usually are acceptable.
+
+    5> FOCUS        Adjust static focus (on the flyback or a large ceramic
+                    pot near it) for clearly defined pixels in the center
+                    of the screen. If there is a dynamic focus pot, it is
+                    for the edges of the screen.
+
+    6> PURITY       Used for checking and adjusting purity. Be sure to
+                    degauss the tube first, and with tubes larger than
+                    15" orient the tube to face north or south (to minimize
+                    the effects of the earth's magnetic field). Then, if
+                    the tube still displays discoloration on any of the
+                    screens in the PURITY pattern, adjust the purity
+                    magnets on the neck of the tube. If the purity
+                    cannot be corrected by these methods, then the
+                    deflection yoke may need to be repositioned (not
+                    a job for the inexperienced tech).
+
+    7> MULTIBURST  This pattern is basically a frequency response test
+                   for the video amplifiers. The closer the vertical stripes,
+                   the higher the frequency. If the smallest stripes are
+                   blurred together, or just look like a large gray stripe,
+                   you may have a video problem. Usually this is caused
+                   by leaky electrolytic capacitors on the video board.
+
+    8> LUMINANCE WINDOW    I included this pattern for anyone who
+                   uses a color/luminance probe.
+
+    9> MAGENTA CROSSHATCH   DISCONTINUED.
+
+    A> COLOR BALANCE   Prints 6 small blocks, red, green, and blue at
+                   2 brightness levels. For adjusting the color balance
+                   of CGA monitors. Turn brightness down until the
+                   brightest blocks are barely visible. R,G,+B should
+                   be equally visible.
+
+    B> CGA TEST LOOP   Runs a series of CGA test patterns in a continuous
+                   loop. The loop can be exited by pressing any key
+                   and waiting for the loop to finish. The TEST LOOPs
+                   are for "burn-in" testing of monitors. It is best
+                   to burn-in a monitor for at least 72 hours on a
+                   7 hour on, 1 hour off cycle. It is also a good idea
+                   to set up a separate computer with a video distribution
+                   box for monitor burn-in testing. A distribution box
+                   for MONO, CGA, and EGA, would only require 1 TTL hex
+                   buffer for each monitor. The details for an inexpensive
+                   VGA distribution amplifier are available from me by
+                   request.
+
+2> EGA MENU
+    1> COLOR BARS  Same as CGA COLOR BARS except in 640x350 mode.
+
+    2> MODE SWITCH  Tests mode switching between 15.75 kHz (CGA) and
+                   21 kHz (EGA).
+
+    3> CROSSHATCH  640x350 line crosshatch pattern. Commands are
+                   similar to CGA CROSSHATCH, <R> red, <G> green,
+                   <B> blue, <M> magenta, <C> cyan, <Y> yellow,
+                   <W> white, <Z> reverse video, <X> exit.
+
+    4> FOCUS       Focus pattern for 640x350 line mode.
+
+    5> MULTIBURST  Multiburst pattern for 640x350 line mode.
+                   Since the horizontal sweep frequency is higher
+                   than that of CGA, the pixel rate frequencies
+                   are proportionally higher.
+
+    6> RGBI PATTERN  Color bars of red, green, blue, and gray scale
+                   for adjusting color balance of EGA monitors, and
+                   for checking color matrix PAL chips.
+
+    7> EGA TEST LOOP  A test loop for EGA monitor burn-in testing.
+                   Contains EGA and CGA patterns to check both modes.
+
+3> VGA MENU   Splits VGA patterns into 4 submenus:
+  1> COLOR BAR MENU
+  2> CROSSHATCH MENU
+  3> MISC ADJ MENU
+  4> VGA UTILITIES
+
+
+  1> COLOR BAR MENU
+    1> 16 COLOR    Same as CGA + EGA color bars except in 320x200 mode.
+
+    2> 256 COLOR   Displays the complete 256 color default pallette in
+                   320x200 mode.
+
+    3> RGBI SCALE  Smooth intensity scales for red, green, blue, and
+                   white. For checking overall color balance and video
+                   gain linearity. Consists of 64 intensity steps
+                   of R,G,B,+I.
+
+    4> SATURATED COLORS Used for checking top-end linearity of video
+                   amplifiers. Each color bar should be discernable
+                   from the next and not appear washed out.
+
+    5> 480 LINE BARS  Similar to the 16 COLOR pattern except in
+                   640x480 line mode, and displayed split screen.
+
+    6> NTSC BARS   Standard NTSC color bar pattern with a gray scale
+                   strip. There are low level magenta and low level
+                   blue squares beside the large white square.
+                   The magenta and blue squares should be barely
+                   visible with no back raster showing. This pattern
+                   may also be useful for aligning VGA to NTSC broadcast
+                   converters.
+
+    7> COMBINED BARS  For checking overall video quality. Has 16 color
+                   bar set, saturated color scale, and 16 step gray scale.
+
+    8> 16 STEP GRAY SCALE  16 even gray steps, split screen. For adjusting
+                   subbrightness, subcontrast, color balance, color
+                   gain. Black ends should be black with no back raster,
+                   and first gray bar should be barely visible.
+                   Last white bar should have no discoloration after
+                   pattern has been displayed at full brightness and
+                   contrast for about 1 minute. Bars should be steel
+                   gray with no tinges of other color.
+
+    9> 64 STEP GRAY SCALE  64 even gray steps, split screen. For
+                   checking video linearity. All steps should be
+                   clearly visible, especially on the white end.
+                   Some of the ones on the black end may be invisible
+                   or next to impossible to see.
+
+    A> RGB STRIPES   Another way of cross-checking color balance.
+                   This pattern should appear as a grey screen from
+                   about 5 feet away. Don't look too close, it will
+                   make your eyes buggy.
+
+    B> GREY SCALE REFERENCE   Displays a double 64 step grey scale and
+                   a black box, and a white box. The  edge of the dark
+                   end of the top grey scale should show up (in comparison
+                   to the black part of the screen) all the way
+                   until the next to last dark grey bar. The bright
+                   end of the bottom grey scale should be discernable
+                   from the white part of the screen until the next to
+                   last light grey bar. Also the back raster should just
+                   barely be visible.
+          NOTE:    When using an oscilloscope on
+                   the video circuits (especially on the CRT cathodes),
+                   when the sweep is set to show a line of video,
+                   this test pattern will draw a box on the scope with
+                   an X through it. The arms of the X should be straight,
+                   indicating good linearity of the video amps. If the lines
+                   are curved, suspect dried out capacitors, or drifting
+                   resistors causing nonlinear amplification of the video.
+
+  2> CROSSHATCH MENU
+    1> 350 LINE    Same pattern as the EGA crosshatch pattern.
+
+    2> 400 LINE    Same pattern as the CGA 200 line pattern, except
+                   that because of the way a vga card sets it's
+                   color palette, the color commands do not work.
+
+    3> 480 LINE    Reminiscent of the old TV "INDIAN HEAD" test
+                   patterns used by early TV stations. Has "target"
+                   circles, crosshairs with tickmarks, a mini set
+                   of color bars, and focus fans. Commands are:
+                   <R> red, <G> green, <B> blue, <M> magenta,
+                   <C> cyan, <Y> yellow, <Z> reverse video, <X> exit.
+                   VGA monitors may have as many as 3 vert size
+                   controls, which is why i have included 3 patterns
+                   here.
+
+    4> CENTERING   Similar to the CGA centering except it's in
+                   640x480 line mode
+
+    5> 400LINE SPECIAL  320x200 graphics pattern for checking
+                   overall picture quality.
+
+    6> COLOR GRID  For checking convergence. Grid with red, green,
+                   and blue segments. Segments should line up perfect
+                   in the center of the screen with a maximum error
+                   of one half pixel width at the edges.
+
+  3> MISC ADJ MENU
+    1> MULTIBURST  640x480 line version of the multiburst pattern.
+                   The horizontal sweep frequency is 31.5 kHz, so
+                   the maximum pixel rate is about 10 MHz, requiring
+                   about 60-70 MHz bandwidth for accurate reproduction
+                   of the video waveform.
+          NOTE:    Problems with video amp frequency response can
+                   easily be diagnosed with an oscilloscope with
+                   this test pattern.
+
+    2> PURITY      This purity pattern is actually the same subroutine
+                   used for the CGA purity pattern. VGA monitors are
+                   more susceptible to purity errors, especially 17"
+                   and 19" monitors.
+
+    3> HVREG       Same pattern as in the CGA menu. Generally VGA
+                   monitors should have better HV regulation than
+                   CGA and EGA monitors, but the less expensive
+                   the monitor, the less safeguards are built in.
+
+    4> COLOR BALANCE  A white luminance window. The content of
+                   red, green, and blue are continuously variable
+                   from 0 to 63. In the upper left hand corner are
+                   3 indicators, red, green, and blue. The relative
+                   positions of each indicator show the relative
+                   amount of each color in the center window. The
+                   commandkeys for each color work similar to the
+                   channel up/down arrows on a TV remote control.
+                   Red uses <E> for down, <R> for up. Green uses
+                   <F> for down, <G> for up. Blue uses <V> for down,
+                   <B> for up. Notice that the up/down keys are
+                   next to each other. <X> or <ESC> to exit.
+                   If you adjust the colors until the monitor
+                   under test shows the window as white, you
+                   will see the relative color balance errors
+                   in the positions of the RGB indicators.
+
+    5> TEXT        Fills the screen with text and extended ASCII
+                   characters.
+
+    6> COLOR CONTRAST  Standard color contrast pattern displaying
+                   3 horizontal bars, each in 3 sections, with
+                   primary colors on the outside, complementary
+                   colors on the inside. The sections should have
+                   clear, sharp borders, without appearing smeared
+                   or washed out.
+
+    7> VGA FOCUS #1  640x480 line focus pattern. Individual pixels
+                   should be visible, sometimes with a moire`
+                   (interference fringe) pattern on the screen.
+
+    8> ANALOG ECHO  A vertival white line at the left edge of the
+                   screen, with a gray background. Gray background
+                   should appear solid, with no ghosts or shadows
+                   of the white line. This test is useful for
+                   checking video cables which may be changing
+                   impedance due to an open ground or pinched
+                   coax cables. Also may indicate improper
+                   termination impedance in the video amp due to a
+                   component failure.
+
+    9> VIDEO AMP OVERLOAD  Horizontal R,G,B bars ending in the center
+                   of the screen, followed by vertical white measurement
+                   lines. Bars should stop AT the first measurement
+                   line, and not bleed over it. Excessive gain in a
+                   video amp, causing saturation is the source of
+                   most bleed over. Other causes may be defective
+                   electrolytic coupling or bypass caps.
+           NOTE:   An oscilloscope can be helpful in determining
+                   the cause of smearing. Sometimes it's a saturated
+                   amplifier that's slow to respond, or it may be
+                   some oscillation caused by dried out capacitors.
+
+    A> VGA FOCUS #2  A more complex focus pattern. A small 4 segment
+                   target should be clearly defined at the center
+                   of the screen with most of the rest of the pattern
+                   also clear.
+
+    B> VGA FOCUS #3  5 small target patterns. The 4 segment target in
+                   each should be in focus and clearly defined.
+
+    C> DYNAMIC HV REG  A green box with a large white horizontal bar.
+                   The box should not appear to be deformed more
+                   than 1/4 the width of a text character, and the
+                   white bar should appear to be rectangular, not
+                   trapezoidal (i.e. should have square corners).
+                   Most cheaper monitors fail this test.
+
+    D> STANDARD LUM WINDOWS  5 white squares for use with a luminance
+                   probe. Also uses R, G, B, M, C, Y, W, Z, and <ESC>
+                   commands as in the 480 LINE CROSSHATCH pattern.
+                   The Z command however displays a blank black raster.
+
+    E> CENTERING CROSSHAIRS  For checking picture centering.
+
+    F> PHOSPHOR IONIZATION   Two white horizontal bars. Leave pattern
+                             on screen for 3 minutes. Then check for
+                             discoloration of the white bars. This
+                             test must be done at full contrast and
+                             brightness. If bars are discolored,
+                             decrease SUBCONTRAST or evenly decrease
+                             R,G,B VIDEO GAIN adjustments using
+                             the 16 STEP GRAY SCALE pattern.
+                             Phosphor discoloration seems to be
+                             caused by either a thermal effect
+                             on the phosphor, or more likely,
+                             ionization effects which cause a
+                             cloud of secondary electrons to form
+                             between the front of the tube and the
+                             shadow mask (degaussing the tube makes
+                             the discoloration disappear immediately).
+                             The discoloration also goes away if the
+                             brightness or contrast are turned down
+                             (takes about 3 or 4 minutes) or the monitor
+                             is turned off. Only certain cheaper types
+                             of tubes seem to be susceptible to this
+                             problem. In any case, the primary cause
+                             of the problem is excessive beam current
+                             especially when a bright white area is
+                             displayed on the screen (such as a Windows
+                             menu).
+
+
+  4> VGA UTILITY MENU
+    1> VGA TEST LOOP         Displays a sequence of test patterns.
+                             Best used for burn-in testing of monitors
+                             that have been repaired. Press any key and
+                             wait for the loop to finish to exit. One
+                             minor bug: Sometimes when left running
+                             overnight, the timing loop that operates
+                             the pattern switching sees a high timer
+                             count just before midnight, stores that
+                             count, and begins looking for it to
+                             increment higher. But, because it is
+                             midnight, the timer resets, so the loop
+                             counter never sees a higher count. This
+                             causes the loop to hang while it waits
+                             for a higher count (which may not happen
+                             at all, or until the next midnight).
+                             If this happens, you may need to reboot.
+
+     2> MODE SWITCHING       Checks mode switching of vga monitors
+                             between 350-400-480 line modes.
+
+4>MONO MENU      NOTE: MAKE SURE YOU HAVE LOADED MSHERC.COM OR
+                       QBHERC.COM BEFORE USING THESE TEST PATTERNS.
+
+    1> FOCUS       Hercules compatible focus pattern.
+
+    2> CROSSHATCH  Hercules compatible crosshatch pattern.
+                   Most mono monitors have alignment magnets
+                   around the rim of the yoke. If any corners
+                   look crooked, adjusting the magnet closest
+                   to the problem should correct it.
+
+    3> TEXT        Fills screen with text, with border.
+
+    4> SPLIT SCREEN  Checks intensity switching and contrast control
+                   2 large rectangles, one dim, one bright.
+
+    5> WHITE SCREEN  White screen. Used to check brightness and
+                   also for phosphor burn. If you can read what
+                   the customer does on his monitor, the tube should
+                   be replaced.
+
+    6> MULTIBURST  720x348 version of the multiburst test pattern.
+
+    7> MONO TEST LOOP  Provides a test loop for burn-in testing
+                   of MONO monitors.
+
+5> HELP    Gives some of the commands for the crosshatch and vga color
+           balance patterns.
+
+
+ADDENDUM:
+    VTB 4.5 Freeware has done away with the TIMER loops that caused a midnight
+    rollover lockup in the test loops. The TIMER loops have been replaced with
+    SLEEP statements that function much better and reduced the size of the EXE by about 12k.
